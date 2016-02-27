@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class EntityValueTest extends TestCase
 {
 
-	use DatabaseMigrations;
+	//use DatabaseMigrations;
 
     public function testPingApi()
     {

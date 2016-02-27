@@ -14,6 +14,7 @@ class CreateValuesTable extends Migration
     {
         Schema::create('values', function(Blueprint $table)
         {
+            $table->engine = 'InnoDB';
             $table->char('entity_key', 10);
             $table->integer('entity_id')->unsigned();
             $table->integer('attribute_id')->unsigned();

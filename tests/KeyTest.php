@@ -6,7 +6,7 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 class KeyTest extends TestCase
 {
     
-    use DatabaseMigrations;
+    //use DatabaseMigrations;
 
     public function testPingApi()
     {

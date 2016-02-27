@@ -14,6 +14,7 @@ class CreateKeysTable extends Migration
     {
         Schema::create('keys', function(Blueprint $table)
         {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('company_id')->unsigned()->index();
             $table->char('entity_key', 10)->index();

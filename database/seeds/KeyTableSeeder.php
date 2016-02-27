@@ -31,6 +31,12 @@ class KeyTableSeeder extends Seeder
                 'description' => 'hp',
                 'type' => 'string',
             ]);
+        Key::create([ 
+                'company_id' => '1',
+                'entity_key' => 'vehicle',
+                'description' => 'doc',
+                'type' => 'file',
+            ]);
         
     }
 }
