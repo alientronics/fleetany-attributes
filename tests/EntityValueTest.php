@@ -48,8 +48,11 @@ class EntityValueTest extends TestCase
         ];
 
 		$this->actingAs($user)
-			->post('/api/v1/values/vehicle/1', $data)
-      		->seeJson(['created']);
+			->post('/api/v1/values/vehicle/1', $data);
+
+        $this->assertEquals(
+            $this->response->getContent(), ['created']
+        );
 
         $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => '2015']);
         $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => 'BMW']);
