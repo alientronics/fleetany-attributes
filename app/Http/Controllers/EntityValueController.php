@@ -22,9 +22,9 @@ class EntityValueController extends Controller
     public function get($entity_key, $entity_id)
     {
   
-        $entity_key = $entity_id; //dummy for phpmd
-
-        $Values = Value::all();
+        $Values = Value::where('entity_key', $entity_key)
+                        ->where('entity_id', $entity_id)
+                        ->get();
 
         return response()->json($Values);
   
@@ -40,7 +40,14 @@ class EntityValueController extends Controller
             $fields['attribute_id'] = $key;
             $fields['value'] = $value;
 
-            Value::create($fields);
+            $update = Value::where('entity_key', $entity_key)
+                        ->where('entity_id', $entity_id)
+                        ->where('attribute_id', $key)
+                        ->update($fields);
+            
+            if(empty($update)) {
+                Value::create($fields);
+            }
 
         }
 

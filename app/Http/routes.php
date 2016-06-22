@@ -19,7 +19,7 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
 
 
     /* basic crud for keys */
-    $app->get('key', 'KeyController@index');
+    $app->get('key/{company_id}/{entity_key}', 'KeyController@index');
     $app->get('key/{id}', 'KeyController@get');
     $app->post('key', 'KeyController@create');
     $app->put('key/{id}', 'KeyController@update');

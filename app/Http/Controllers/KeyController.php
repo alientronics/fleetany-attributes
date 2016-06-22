@@ -19,15 +19,20 @@ class KeyController extends Controller
         //
     }
 
-    public function index()
+    public function index($company_id, $entity_key = '-')
     {
   
-        $Keys = Key::all();
+        $Keys = Key::where('keys.company_id', $company_id);
   
+        if ($entity_key != '-') {
+            $Keys = $Keys->where('keys.entity_key', $entity_key);
+        }
+        
+        $Keys = $Keys->get();
+        
         Storage::put('file.txt', 'Contents');
 
         return response()->json($Keys);
-  
     }
   
     public function get($idKey)
