@@ -19,13 +19,18 @@ class KeyController extends Controller
         //
     }
 
-    public function index($company_id, $entity_key = '-')
+    public function index($company_id, $entity_key = '-', $description = '-')
     {
   
-        $Keys = Key::where('keys.company_id', $company_id);
+        $Keys = Key::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
+                    ->where('keys.company_id', $company_id);
   
         if ($entity_key != '-') {
-            $Keys = $Keys->where('keys.entity_key', $entity_key);
+            $Keys = $Keys->where('keys.entity_key', 'like', '%'.$entity_key.'%');
+        }
+        
+        if ($description != '-') {
+            $Keys = $Keys->where('keys.description', 'like', '%'.$description.'%');
         }
         
         $Keys = $Keys->get();
