@@ -19,7 +19,7 @@ class KeyTest extends TestCase
 
     public function testKeyGetFail()
     {
-        $this->get('/api/v1/key');
+        $this->get('/api/v1/keys/1/vehicle/description');
 
         $this->assertEquals($this->response->status(), 401);
 
@@ -31,7 +31,7 @@ class KeyTest extends TestCase
         $user = factory('App\User')->make();
 
         $this->actingAs($user)
-            ->get('/api/v1/key');
+            ->get('/api/v1/keys/1/vehicle/description');
 
         $this->assertEquals($this->response->status(), 200);
     }

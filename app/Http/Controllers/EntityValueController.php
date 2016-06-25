@@ -45,7 +45,7 @@ class EntityValueController extends Controller
                         ->where('attribute_id', $key)
                         ->update($fields);
             
-            if(empty($update)) {
+            if (empty($update)) {
                 Value::create($fields);
             }
 

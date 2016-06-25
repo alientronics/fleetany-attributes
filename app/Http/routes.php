@@ -26,15 +26,15 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
     $app->delete('key/{id}', 'KeyController@delete');
 
     /* attribute types
-	$app->get('types','TypesController@get');
+    $app->get('types','TypesController@get');
     */
 
     /* list entity keys
-	$app->get('keys/{entity_key}','EntityController@keys');
+    $app->get('keys/{entity_key}','EntityController@keys');
     */
 
     /* filter entity list, return entities ids
-	$app->post('filter/{entity_key}','EntityController@filter');
+    $app->post('filter/{entity_key}','EntityController@filter');
     */
 
     /* crud for entity an attributes */
