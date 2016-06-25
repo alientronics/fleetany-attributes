@@ -26,7 +26,7 @@ class KeyController extends Controller
                     ->where('keys.company_id', $company_id);
   
         if ($entity_key != '-') {
-            $Keys = $Keys->where('keys.entity_key', 'like', '%'.$entity_key.'%');
+            $Keys = $Keys->whereIn('keys.entity_key', $this->getEntityKeys($entity_key));
         }
         
         if ($description != '-') {

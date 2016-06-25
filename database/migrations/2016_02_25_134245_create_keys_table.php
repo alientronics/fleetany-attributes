@@ -17,7 +17,7 @@ class CreateKeysTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('company_id')->unsigned()->index();
-            $table->char('entity_key', 10)->index();
+            $table->char('entity_key', 30)->index();
             $table->string('description', 50);
             $table->enum('type', ['string', 'numeric', 'select', 'checkbox', 'file']);
             $table->string('options')->nullable();

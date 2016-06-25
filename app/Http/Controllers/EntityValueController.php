@@ -22,7 +22,7 @@ class EntityValueController extends Controller
     public function get($entity_key, $entity_id)
     {
   
-        $Values = Value::where('entity_key', $entity_key)
+        $Values = Value::whereIn('entity_key', $this->getEntityKeys($entity_key))
                         ->where('entity_id', $entity_id)
                         ->get();
 
