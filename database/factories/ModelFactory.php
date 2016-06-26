@@ -17,3 +17,21 @@ $factory->define(App\User::class, function ($faker) {
         'api_token' => $faker->name,
     ];
 });
+
+$factory->define(App\Key::class, function ($faker) {
+    return [
+        'entity_key' => 'vehicle',
+        'description' => 'Description',
+        'type' => 'string',
+    ];
+});
+
+$factory->define(App\Value::class, function ($faker) {
+    return [
+        'entity_key' => 'vehicle',
+        'entity_id' => 1,
+        'attribute_id' => 1,
+        'value' => 1,
+    ];
+});
+        
