@@ -34,7 +34,7 @@ class EntityValueController extends Controller
     {
 
         $files = [];
-        if(!empty($request->all())) {
+        if (!empty($request->all())) {
             foreach ($request->all() as $key => $value) {
              
                 if ($request->hasFile($key)) {
@@ -58,7 +58,7 @@ class EntityValueController extends Controller
             }
         }
   
-        if(!empty($files)) {
+        if (!empty($files)) {
             foreach ($files as $file_attribute) {
                 if ($request->hasFile($file_attribute)) {
                     $file = $request->file($file_attribute);

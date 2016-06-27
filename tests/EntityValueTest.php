@@ -42,10 +42,7 @@ class EntityValueTest extends TestCase
 
         $user = factory('App\User')->make();
 
-        $data = [ 'attributes' => [
-        	'1' => '2015', '2' => 'BMW', '3' => '120hp',
-        	],
-        ];
+        $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
 
 		$this->actingAs($user)
 			->post('/api/v1/values/vehicle/1', $data)
@@ -62,10 +59,7 @@ class EntityValueTest extends TestCase
 
         $user = factory('App\User')->make();
 
-        $data = [ 'attributes' => [
-        	'1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'
-        	],
-        ];
+        $data = ['1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
 
         $file = new UploadedFile(storage_path('test/file.txt'), 'file.txt', null, null, null, TRUE);
 
