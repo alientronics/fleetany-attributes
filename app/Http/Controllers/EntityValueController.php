@@ -36,11 +36,9 @@ class EntityValueController extends Controller
         $files = [];
         if (!empty($request->all())) {
             foreach ($request->all() as $key => $value) {
-             
                 if ($request->hasFile($key)) {
                     $files[] = $key;
                 } else {
-                
                     $fields['entity_key'] = $entity_key;
                     $fields['entity_id'] = $entity_id;
                     $fields['attribute_id'] = $key;
