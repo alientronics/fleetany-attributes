@@ -72,5 +72,21 @@ class EntityValueTest extends TestCase
         $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => 'Porsche']);
         $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => '160hp']);
     }
+    
+    public function testEntityValueWithModelPostSuccess()
+    {
+    
+        $user = factory('App\User')->make();
+    
+        $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
+    
+        $this->actingAs($user)
+        ->post('/api/v1/values/vehicle.car/1', $data)
+        ->seeJson(['created']);
+    
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => '2015']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => 'BMW']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => '120hp']);
+    }
 
 }

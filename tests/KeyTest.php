@@ -2,6 +2,7 @@
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use App\Key;
 
 class KeyTest extends TestCase
 {
@@ -17,7 +18,7 @@ class KeyTest extends TestCase
         );
     }
 
-    public function testKeyGetFail()
+    public function testKeysGetFail()
     {
         $this->get('/api/v1/keys/1/vehicle/description');
 
@@ -25,7 +26,7 @@ class KeyTest extends TestCase
 
     }
 
-    public function testKeyGetSuccess()
+    public function testKeysGetSuccess()
     {
 
         $user = factory('App\User')->make();
@@ -56,4 +57,79 @@ class KeyTest extends TestCase
         $this->seeInDatabase('keys', ['entity_key' => 'vehicle' , 'description' => 'year']);
     }
 
+    public function testKeyGetSuccess()
+    {
+    
+        $user = factory('App\User')->make();
+    
+        $this->actingAs($user)
+            ->get('/api/v1/key/'.Key::all()->last()['id']);
+    
+        $this->assertEquals($this->response->status(), 200);
+    }
+
+    public function testKeyUpdateSuccess()
+    {
+
+        $user = factory('App\User')->make();
+
+        $key = [
+            'company_id'  => 1,
+            'entity_key'  => 'vehicle',
+            'description'  => 'year',
+            'type'  => 'numeric',
+            'options' => ''
+        ];
+
+        $this->actingAs($user)
+            ->post('/api/v1/key', $key)
+            ->seeJson(['created']);
+
+        $idUpdate = Key::all()->last()['id'];
+        
+        $this->seeInDatabase('keys', ['id' => $idUpdate, 'entity_key' => 'vehicle' , 'description' => 'year']);
+        
+        $keyUpdated = [
+            'company_id'  => 1,
+            'entity_key'  => 'vehicle.car',
+            'description'  => 'year2',
+            'type'  => 'string',
+            'options' => 'first'
+        ];
+        
+        $this->actingAs($user)
+            ->put('/api/v1/key/'.$idUpdate, $keyUpdated)
+            ->seeJson(['created']);
+        
+        $this->seeInDatabase('keys', ['id' => $idUpdate, 'entity_key' => 'vehicle.car', 'description' => 'year2']);
+
+    }
+
+    public function testKeyDeleteSuccess()
+    {
+
+        $user = factory('App\User')->make();
+
+        $key = [
+            'company_id'  => 1,
+            'entity_key'  => 'vehicle',
+            'description'  => 'year',
+            'type'  => 'numeric',
+            'options' => ''
+        ];
+
+        $this->actingAs($user)
+            ->post('/api/v1/key', $key)
+            ->seeJson(['created']);
+
+        $this->seeInDatabase('keys', ['entity_key' => 'vehicle' , 'description' => 'year']);
+        
+        $idDelete = Key::all()->last()['id'];
+        
+        $this->actingAs($user)
+            ->delete('/api/v1/key/'.$idDelete)
+            ->seeJson(['created']);
+        
+        $this->seeIsSoftDeletedInDatabase('keys', ['id' => $idDelete]);
+    }
 }
