@@ -38,7 +38,7 @@ class EntityValueController extends Controller
             foreach ($request->all() as $key => $value) {
                 if ($request->hasFile($key)) {
                     $files[] = $key;
-                } else {
+                } else if (is_numeric($key)) {
                     $fields['entity_key'] = $entity_key;
                     $fields['entity_id'] = $entity_id;
                     $fields['attribute_id'] = $key;
