@@ -99,7 +99,7 @@ class KeyTest extends TestCase
         
         $this->actingAs($user)
             ->put('/api/v1/key/'.$idUpdate, $keyUpdated)
-            ->seeJson(['created']);
+            ->seeJson(['updated']);
         
         $this->seeInDatabase('keys', ['id' => $idUpdate, 'entity_key' => 'vehicle.car', 'description' => 'year2']);
 
@@ -128,7 +128,7 @@ class KeyTest extends TestCase
         
         $this->actingAs($user)
             ->delete('/api/v1/key/'.$idDelete)
-            ->seeJson(['created']);
+            ->seeJson(['deleted']);
         
         $this->seeIsSoftDeletedInDatabase('keys', ['id' => $idDelete]);
     }
