@@ -37,6 +37,17 @@ class EntityValueTest extends TestCase
         $this->assertEquals($this->response->status(), 200);
     }
 
+    public function testEntityValueWithModelGetSuccess()
+    {
+
+        $user = factory('App\User')->make();
+
+        $this->actingAs($user)
+            ->get('/api/v1/values/vehicle.car/1');
+
+        $this->assertEquals($this->response->status(), 200);
+    }
+
     public function testEntityValuePostSuccess()
     {
 
@@ -81,8 +92,8 @@ class EntityValueTest extends TestCase
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
         $this->actingAs($user)
-        ->post('/api/v1/values/vehicle.car/1', $data)
-        ->seeJson(['created']);
+            ->post('/api/v1/values/vehicle.car/1', $data)
+            ->seeJson(['created']);
     
         $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => '2015']);
         $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => 'BMW']);
