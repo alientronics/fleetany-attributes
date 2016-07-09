@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Key;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\MongoDb\KeyControllerMongoDB;
+use App\Http\Controllers\Mysql\KeyControllerMySql;
 
 class KeyController extends Controller
 {
@@ -16,61 +16,35 @@ class KeyController extends Controller
      */
     public function __construct()
     {
-        //
+        if (config('database.default') == 'mongodb') {
+        	$this->controller = new KeyControllerMongoDB();
+        } else {
+        	$this->controller = new KeyControllerMySql();
+        }
     }
 
     public function index($company_id, $entity_key = '-', $description = '-')
     {
-  
-        $Keys = Key::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
-                    ->where('keys.company_id', $company_id);
-  
-        if ($entity_key != '-') {
-            $Keys = $Keys->whereIn('keys.entity_key', $this->getEntityKeys($entity_key));
-        }
-        
-        if ($description != '-') {
-            $Keys = $Keys->where('keys.description', 'like', '%'.$description.'%');
-        }
-        
-        $Keys = $Keys->get();
-        
-        Storage::put('file.txt', 'Contents');
-
-        return response()->json($Keys);
+        $this->controller->index($company_id, $entity_key, $description);
     }
   
     public function get($idKey)
     {
-  
-        $Key  = Key::find($idKey);
-
-        return response()->json($Key);
+        $this->controller->get($idKey);
     }
   
     public function create(Request $request)
     {
-  
-        Key::create($request->all());
-  
-        return response()->json('created');
-  
+        $this->controller->create($request);
     }
   
     public function delete($idKey)
     {
-        $Key  = Key::find($idKey);
-        $Key->delete();
- 
-        return response()->json('deleted');
+        $this->controller->delete($idKey);
     }
   
     public function update(Request $request, $idKey)
     {
-        $Key  = Key::find($idKey);
-        $Key->fill($request->all());
-        $Key->save();
-  
-        return response()->json('updated');
+        $this->controller->update($request, $idKey);
     }
 }

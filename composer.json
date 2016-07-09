@@ -10,7 +10,9 @@
         "vlucas/phpdotenv": "~2.2",
         "mlntn/lumen-artisan-serve": "~1",
         "league/flysystem": "^1.0",
-        "fzaninotto/faker": "~1.4"
+        "fzaninotto/faker": "~1.4",
+		"mongodb/mongodb": "^1.0",
+		"jenssegers/mongodb": "~3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
