@@ -2,7 +2,8 @@
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use App\Key;
+use App\Entities\MySql;
+use App\Entities\MySql\KeyMySql;
 
 class KeyTest extends TestCase
 {
@@ -63,7 +64,7 @@ class KeyTest extends TestCase
         $user = factory('App\User')->make();
     
         $this->actingAs($user)
-            ->get('/api/v1/key/'.Key::all()->last()['id']);
+            ->get('/api/v1/key/'.KeyMySql::all()->last()['id']);
     
         $this->assertEquals($this->response->status(), 200);
     }
@@ -85,7 +86,7 @@ class KeyTest extends TestCase
             ->post('/api/v1/key', $key)
             ->seeJson(['created']);
 
-        $idUpdate = Key::all()->last()['id'];
+        $idUpdate = KeyMySql::all()->last()['id'];
         
         $this->seeInDatabase('keys', ['id' => $idUpdate, 'entity_key' => 'vehicle' , 'description' => 'year']);
         
@@ -124,7 +125,7 @@ class KeyTest extends TestCase
 
         $this->seeInDatabase('keys', ['entity_key' => 'vehicle' , 'description' => 'year']);
         
-        $idDelete = Key::all()->last()['id'];
+        $idDelete = KeyMySql::all()->last()['id'];
         
         $this->actingAs($user)
             ->delete('/api/v1/key/'.$idDelete)

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Mysql;
 
-use App\Key;
+use App\Entities\MySql;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Entities\MySql\KeyMySql;
 
 class KeyControllerMySql extends Controller
 {
@@ -22,7 +23,7 @@ class KeyControllerMySql extends Controller
     public function index($company_id, $entity_key = '-', $description = '-')
     {
   
-        $Keys = Key::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
+        $Keys = KeyMySql::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
                     ->where('keys.company_id', $company_id);
   
         if ($entity_key != '-') {
@@ -43,7 +44,7 @@ class KeyControllerMySql extends Controller
     public function get($idKey)
     {
   
-        $Key  = Key::find($idKey);
+        $Key  = KeyMySql::find($idKey);
 
         return response()->json($Key);
     }
@@ -51,7 +52,7 @@ class KeyControllerMySql extends Controller
     public function create(Request $request)
     {
   
-        Key::create($request->all());
+        KeyMySql::create($request->all());
   
         return response()->json('created');
   
@@ -59,7 +60,7 @@ class KeyControllerMySql extends Controller
   
     public function delete($idKey)
     {
-        $Key  = Key::find($idKey);
+        $Key  = KeyMySql::find($idKey);
         $Key->delete();
  
         return response()->json('deleted');
@@ -67,7 +68,7 @@ class KeyControllerMySql extends Controller
   
     public function update(Request $request, $idKey)
     {
-        $Key  = Key::find($idKey);
+        $Key  = KeyMySql::find($idKey);
         $Key->fill($request->all());
         $Key->save();
   

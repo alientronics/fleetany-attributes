@@ -1,20 +1,22 @@
 <?php
 
-namespace App;
+namespace App\Entities\MySql;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Value extends Model
+class KeyMySql extends Model
 {
     use SoftDeletes;
-
+    
+    protected $table = 'keys';
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'entity_key', 'entity_id', 'attribute_id', 'value',
+        'company_id', 'entity_key', 'description', 'type', 'options',
     ];
 }

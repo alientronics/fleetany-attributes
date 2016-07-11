@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Key;
+use App\Entities\MySql\KeyMySql;
 
 class KeyTableSeeder extends Seeder
 {
@@ -13,25 +13,25 @@ class KeyTableSeeder extends Seeder
     public function run()
     {
         DB::table('keys')->delete();
-        Key::create([ 
+        KeyMySql::create([ 
                 'company_id' => '1',
                 'entity_key' => 'vehicle',
                 'description' => 'year',
                 'type' => 'numeric',
             ]);
-        Key::create([ 
+        KeyMySql::create([ 
                 'company_id' => '1',
                 'entity_key' => 'vehicle',
                 'description' => 'brand',
                 'type' => 'string',
             ]);
-        Key::create([ 
+        KeyMySql::create([ 
                 'company_id' => '1',
                 'entity_key' => 'vehicle',
                 'description' => 'hp',
                 'type' => 'string',
             ]);
-        Key::create([ 
+        KeyMySql::create([ 
                 'company_id' => '1',
                 'entity_key' => 'vehicle',
                 'description' => 'doc',

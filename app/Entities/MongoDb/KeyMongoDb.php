@@ -1,13 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Entities\MongoDb;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Key extends Model
+class KeyMongoDb extends Eloquent
 {
-    use SoftDeletes;
+    protected $collection = 'keys';
     
     /**
      * The attributes that are mass assignable.

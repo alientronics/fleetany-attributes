@@ -18,7 +18,7 @@ $factory->define(App\User::class, function ($faker) {
     ];
 });
 
-$factory->define(App\Key::class, function ($faker) {
+$factory->define(App\Entities\MySql\KeyMySql::class, function ($faker) {
     return [
         'entity_key' => 'vehicle',
         'description' => 'Description',
@@ -26,7 +26,7 @@ $factory->define(App\Key::class, function ($faker) {
     ];
 });
 
-$factory->define(App\Value::class, function ($faker) {
+$factory->define(App\Entities\MySql\ValueMySql::class, function ($faker) {
     return [
         'entity_key' => 'vehicle',
         'entity_id' => 1,

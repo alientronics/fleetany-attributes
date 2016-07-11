@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Mysql;
 
-use App\Value;
+use App\Entities\MySql;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Entities\MySql\ValueMySql;
 
 class EntityValueControllerMySql extends Controller
 {
@@ -21,7 +22,7 @@ class EntityValueControllerMySql extends Controller
     public function get($entity_key, $entity_id)
     {
   
-        $Values = Value::whereIn('entity_key', $this->getEntityKeys($entity_key))
+        $Values = ValueMySql::whereIn('entity_key', $this->getEntityKeys($entity_key))
                         ->where('entity_id', $entity_id)
                         ->get();
 
@@ -43,13 +44,13 @@ class EntityValueControllerMySql extends Controller
                     $fields['attribute_id'] = $key;
                     $fields['value'] = $value;
         
-                    $update = Value::where('entity_key', $entity_key)
+                    $update = ValueMySql::where('entity_key', $entity_key)
                                 ->where('entity_id', $entity_id)
                                 ->where('attribute_id', $key)
                                 ->update($fields);
                     
                     if (empty($update)) {
-                        Value::create($fields);
+                        ValueMySql::create($fields);
                     }
                 }
             }

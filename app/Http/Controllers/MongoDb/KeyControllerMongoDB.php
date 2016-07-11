@@ -6,6 +6,7 @@ use App\Key;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Entities\MongoDb\KeyMongoDb;
 
 class KeyControllerMongoDB extends Controller
 {
@@ -21,21 +22,22 @@ class KeyControllerMongoDB extends Controller
 
     public function index($company_id, $entity_key = '-', $description = '-')
     {
+        $Keys = \DB::connection('mongodb')->collection('keys')->get();
+        
+//         $Keys = Key::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
+//                     ->where('keys.company_id', $company_id);
   
-        $Keys = Key::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
-                    ->where('keys.company_id', $company_id);
-  
-        if ($entity_key != '-') {
-            $Keys = $Keys->whereIn('keys.entity_key', $this->getEntityKeys($entity_key));
-        }
+//         if ($entity_key != '-') {
+//             $Keys = $Keys->whereIn('keys.entity_key', $this->getEntityKeys($entity_key));
+//         }
         
-        if ($description != '-') {
-            $Keys = $Keys->where('keys.description', 'like', '%'.$description.'%');
-        }
+//         if ($description != '-') {
+//             $Keys = $Keys->where('keys.description', 'like', '%'.$description.'%');
+//         }
         
-        $Keys = $Keys->get();
+//         $Keys = $Keys->get();
         
-        Storage::put('file.txt', 'Contents');
+//         Storage::put('file.txt', 'Contents');
 
         return response()->json($Keys);
     }
@@ -50,8 +52,15 @@ class KeyControllerMongoDB extends Controller
   
     public function create(Request $request)
     {
-  
-        Key::create($request->all());
+        $data = $request->all();
+        $inputs = [];
+        $inputs['entity_key'] = $data['entity_key'];
+        $inputs['description'] = $data['description'];
+        $inputs['type'] = $data['type'];
+        $inputs['options'] = $data['options'];
+        $inputs['company_id'] = $data['company_id'];
+        
+        KeyMongoDb::create($inputs);
   
         return response()->json('created');
   
