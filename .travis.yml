@@ -8,6 +8,7 @@ php:
 
 services:
   - mysql
+  - mongodb
 
 addons:
   code_climate:
@@ -20,8 +21,9 @@ install:
   - composer install --prefer-source --no-interaction
 
 before_script:
-  - pecl -q install mongo && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - mysql -e 'create database tpms;'
+  - sleep 15
+  - mongo alientronics --eval 'db.addUser("travis", "test");'
   - mv .env.example .env
   - php artisan migrate:refresh --seed --force
 
