@@ -20,6 +20,7 @@ install:
   - composer install --prefer-source --no-interaction
 
 before_script:
+  - pecl -q install mongo && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - mysql -e 'create database tpms;'
   - mv .env.example .env
   - php artisan migrate:refresh --seed --force
