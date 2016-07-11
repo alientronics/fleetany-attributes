@@ -15,13 +15,13 @@ addons:
     repo_token: 3ed233cbaeb077601c697c2f087afcfa3a2f5f60662d07029882c740bc6e9072
 
 before_install:
+  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer self-update
 
 install:
   - composer install --prefer-source --no-interaction
 
 before_script:
-  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - mysql -e 'create database tpms;'
   - sleep 15
   - mv .env.example .env
