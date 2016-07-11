@@ -25,26 +25,26 @@ class KeyController extends Controller
 
     public function index($company_id, $entity_key = '-', $description = '-')
     {
-        $this->controller->index($company_id, $entity_key, $description);
+        return $this->controller->index($company_id, $entity_key, $description);
     }
   
     public function get($idKey)
     {
-        $this->controller->get($idKey);
+        return $this->controller->get($idKey);
     }
   
     public function create(Request $request)
     {
-        $this->controller->create($request);
+        return $this->controller->create($request);
     }
   
     public function delete($idKey)
     {
-        $this->controller->delete($idKey);
+        return $this->controller->delete($idKey);
     }
   
     public function update(Request $request, $idKey)
     {
-        $this->controller->update($request, $idKey);
+        return $this->controller->update($request, $idKey);
     }
 }

@@ -56,14 +56,7 @@ class EntityValueControllerMongoDB extends Controller
             }
         }
   
-        if (!empty($files)) {
-            foreach ($files as $file_attribute) {
-                if ($request->hasFile($file_attribute)) {
-                    $file = $request->file($file_attribute);
-                    Storage::put($file->getClientOriginalName(), file_get_contents($file));
-                }
-            }
-        }
+        $this->saveFiles($request, $files);
 
         return response()->json('created');
   

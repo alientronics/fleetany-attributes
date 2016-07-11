@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Mysql;
 
 use App\Value;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -56,14 +55,7 @@ class EntityValueControllerMySql extends Controller
             }
         }
   
-        if (!empty($files)) {
-            foreach ($files as $file_attribute) {
-                if ($request->hasFile($file_attribute)) {
-                    $file = $request->file($file_attribute);
-                    Storage::put($file->getClientOriginalName(), file_get_contents($file));
-                }
-            }
-        }
+        $this->saveFiles($request, $files);
 
         return response()->json('created');
   
