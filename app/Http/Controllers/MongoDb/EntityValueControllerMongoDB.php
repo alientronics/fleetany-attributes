@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\MongoDb;
 
 use App\Value;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Entities\MongoDb\ValueMongoDb;
 
 class EntityValueControllerMongoDB extends Controller
 {
@@ -22,7 +22,7 @@ class EntityValueControllerMongoDB extends Controller
     public function get($entity_key, $entity_id)
     {
   
-        $Values = Value::whereIn('entity_key', $this->getEntityKeys($entity_key))
+        $Values = ValueMongoDb::whereIn('entity_key', $this->getEntityKeys($entity_key))
                         ->where('entity_id', $entity_id)
                         ->get();
 
@@ -38,19 +38,19 @@ class EntityValueControllerMongoDB extends Controller
             foreach ($request->all() as $key => $value) {
                 if ($request->hasFile($key)) {
                     $files[] = $key;
-                } elseif (is_numeric($key)) {
+                } elseif ($key != 'api_token') {
                     $fields['entity_key'] = $entity_key;
                     $fields['entity_id'] = $entity_id;
                     $fields['attribute_id'] = $key;
                     $fields['value'] = $value;
         
-                    $update = Value::where('entity_key', $entity_key)
+                    $update = ValueMongoDb::where('entity_key', $entity_key)
                                 ->where('entity_id', $entity_id)
                                 ->where('attribute_id', $key)
                                 ->update($fields);
                     
                     if (empty($update)) {
-                        Value::create($fields);
+                        ValueMongoDb::create($fields);
                     }
                 }
             }

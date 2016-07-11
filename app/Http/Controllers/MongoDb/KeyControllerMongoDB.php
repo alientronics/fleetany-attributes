@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\MongoDb;
 
 use App\Key;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Entities\MongoDb\KeyMongoDb;
@@ -22,45 +21,39 @@ class KeyControllerMongoDB extends Controller
 
     public function index($company_id, $entity_key = '-', $description = '-')
     {
-        $Keys = \DB::connection('mongodb')->collection('keys')->get();
-        
-//         $Keys = Key::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
-//                     ->where('keys.company_id', $company_id);
+        $Keys = KeyMongoDb::where('company_id', $company_id);
   
-//         if ($entity_key != '-') {
-//             $Keys = $Keys->whereIn('keys.entity_key', $this->getEntityKeys($entity_key));
-//         }
+        if ($entity_key != '-') {
+            $Keys = $Keys->whereIn('entity_key', $this->getEntityKeys($entity_key));
+        }
         
-//         if ($description != '-') {
-//             $Keys = $Keys->where('keys.description', 'like', '%'.$description.'%');
-//         }
+        if ($description != '-') {
+            $Keys = $Keys->where('description', 'like', '%'.$description.'%');
+        }
         
-//         $Keys = $Keys->get();
+        $Keys = $Keys->get();
         
-//         Storage::put('file.txt', 'Contents');
-
+        if(!empty($Keys)) {
+            foreach ($Keys as $i => $Key) {
+                $Keys[$i]['id'] = $Key['_id'];
+                $Keys[$i]['entity-key'] = $Key['entity_key'];
+            }
+        }
+        
         return response()->json($Keys);
     }
   
     public function get($idKey)
     {
-  
-        $Key  = Key::find($idKey);
+        $Key = KeyMongoDb::find($idKey);
+        $Key['id'] = $idKey;
 
         return response()->json($Key);
     }
   
     public function create(Request $request)
     {
-        $data = $request->all();
-        $inputs = [];
-        $inputs['entity_key'] = $data['entity_key'];
-        $inputs['description'] = $data['description'];
-        $inputs['type'] = $data['type'];
-        $inputs['options'] = $data['options'];
-        $inputs['company_id'] = $data['company_id'];
-        
-        KeyMongoDb::create($inputs);
+        KeyMongoDb::create($request->all());
   
         return response()->json('created');
   
@@ -68,7 +61,7 @@ class KeyControllerMongoDB extends Controller
   
     public function delete($idKey)
     {
-        $Key  = Key::find($idKey);
+        $Key = KeyMongoDb::find($idKey);
         $Key->delete();
  
         return response()->json('deleted');
@@ -76,7 +69,7 @@ class KeyControllerMongoDB extends Controller
   
     public function update(Request $request, $idKey)
     {
-        $Key  = Key::find($idKey);
+        $Key = KeyMongoDb::find($idKey);
         $Key->fill($request->all());
         $Key->save();
   

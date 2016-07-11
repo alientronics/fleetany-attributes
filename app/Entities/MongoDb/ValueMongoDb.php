@@ -1,13 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Entities\MongoDb;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class ValueMongoDb extends Model
+class ValueMongoDb extends Eloquent
 {
     use SoftDeletes;
+    protected $dates = ['deleted_at'];
+    protected $collection = 'values';
 
     /**
      * The attributes that are mass assignable.
