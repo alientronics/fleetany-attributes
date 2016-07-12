@@ -8,13 +8,14 @@ php:
 
 services:
   - mysql
+  - mongodb
 
 addons:
   code_climate:
     repo_token: 3ed233cbaeb077601c697c2f087afcfa3a2f5f60662d07029882c740bc6e9072
 
 before_install:
-  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - printf "\n" | pecl install mongo
   - composer self-update
 
 install:
