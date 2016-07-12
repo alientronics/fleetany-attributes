@@ -14,17 +14,12 @@ addons:
   code_climate:
     repo_token: 3ed233cbaeb077601c697c2f087afcfa3a2f5f60662d07029882c740bc6e9072
 
-before_install:
-  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - composer self-update
-
-install:
-  - composer install --prefer-source --no-interaction
-
 before_script:
-  - mysql -e 'create database tpms;'
-  - sleep 15
+  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - mv .env.example .env
+  - composer self-update
+  - composer install --prefer-source --no-interaction
+  - mysql -e 'create database tpms;'
   - php artisan migrate:refresh --seed --force
 
 script:
