@@ -15,6 +15,7 @@ addons:
     repo_token: 3ed233cbaeb077601c697c2f087afcfa3a2f5f60662d07029882c740bc6e9072
 
 before_install:
+  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer self-update
 
 install:
@@ -23,7 +24,6 @@ install:
 before_script:
   - mysql -e 'create database tpms;'
   - sleep 15
-  - mongo alientronics --eval 'db.addUser("travis", "test");'
   - mv .env.example .env
   - php artisan migrate:refresh --seed --force
 
