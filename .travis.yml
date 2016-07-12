@@ -23,7 +23,6 @@ install:
 
 before_script:
   - mysql -e 'create database tpms;'
-  - sleep 15
   - mv .env.example .env
   - php artisan migrate:refresh --seed --force
 
