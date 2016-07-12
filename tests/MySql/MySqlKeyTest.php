@@ -1,9 +1,12 @@
 <?php
 
+namespace Tests\MySql;
+
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Entities\MySql;
 use App\Entities\MySql\KeyMySql;
+use Tests\MySqlTestCase;
 
 class MySqlKeyTest extends MySqlTestCase
 {

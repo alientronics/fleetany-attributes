@@ -1,8 +1,11 @@
 <?php
 
+namespace Tests\MongoDb;
+
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Tests\MongoDbTestCase;
 
 class MongoDbEntityValueTest extends MongoDbTestCase
 {

@@ -1,6 +1,10 @@
 <?php
 
-class MySqlTestCase extends Laravel\Lumen\Testing\TestCase
+namespace Tests;
+
+use Laravel\Lumen\Testing\TestCase;
+
+class MongoDbTestCase extends TestCase
 {
     /**
      * Creates the application.
@@ -10,7 +14,7 @@ class MySqlTestCase extends Laravel\Lumen\Testing\TestCase
     public function createApplication()
     {
         $app = require __DIR__.'/../bootstrap/app.php';
-        $app['config']['database.default'] = 'mysql';
+        $app['config']['database.default'] = 'mongodb';
         return $app;
     }
     

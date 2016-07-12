@@ -1,8 +1,11 @@
 <?php
 
+namespace Tests\MySql;
+
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Tests\MySqlTestCase;
 
 class MySqlEntityValueTest extends MySqlTestCase
 {

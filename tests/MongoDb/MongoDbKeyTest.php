@@ -1,9 +1,11 @@
 <?php
 
+namespace Tests\MongoDb;
+
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use App\Entities\MySql;
-use App\Entities\MySql\KeyMySql;
+use Tests\MongoDbTestCase;
+use App\Entities\MongoDb\KeyMongoDb;
 
 class MongoDbKeyTest extends MongoDbTestCase
 {
@@ -64,7 +66,7 @@ class MongoDbKeyTest extends MongoDbTestCase
         $user = factory('App\User')->make();
     
         $this->actingAs($user)
-            ->get('/api/v1/key/'.KeyMySql::all()->last()['id']);
+            ->get('/api/v1/key/'.KeyMongoDb::all()->last()['id']);
     
         $this->assertEquals($this->response->status(), 200);
     }
@@ -86,7 +88,7 @@ class MongoDbKeyTest extends MongoDbTestCase
             ->post('/api/v1/key', $key)
             ->seeJson(['created']);
 
-        $idUpdate = KeyMySql::all()->last()['id'];
+        $idUpdate = KeyMongoDb::all()->last()['id'];
         
         $this->seeInDatabase('keys', ['id' => $idUpdate, 'entity_key' => 'vehicle' , 'description' => 'year']);
         
@@ -125,7 +127,7 @@ class MongoDbKeyTest extends MongoDbTestCase
 
         $this->seeInDatabase('keys', ['entity_key' => 'vehicle' , 'description' => 'year']);
         
-        $idDelete = KeyMySql::all()->last()['id'];
+        $idDelete = KeyMongoDb::all()->last()['id'];
         
         $this->actingAs($user)
             ->delete('/api/v1/key/'.$idDelete)
