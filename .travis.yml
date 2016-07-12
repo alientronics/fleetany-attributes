@@ -6,7 +6,9 @@ php:
   - 5.6
   - 7.0
 
-services: mongodb
+services: 
+  - mysql
+  - mongodb
 
 addons:
   code_climate:
