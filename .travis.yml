@@ -15,7 +15,7 @@ addons:
     repo_token: 3ed233cbaeb077601c697c2f087afcfa3a2f5f60662d07029882c740bc6e9072
 
 before_install:
-  - printf "\n" | pecl install mongo
+  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer self-update
 
 install:
