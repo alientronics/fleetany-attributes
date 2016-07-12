@@ -16,6 +16,8 @@ addons:
 
 before_install:
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - composer self-update
+
 
 before_script:
   - mysql -e 'create database tpms;'
