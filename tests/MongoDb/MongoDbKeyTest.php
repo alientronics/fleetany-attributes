@@ -5,7 +5,7 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Entities\MySql;
 use App\Entities\MySql\KeyMySql;
 
-class KeyTest extends TestCase
+class MongoDbKeyTest extends MongoDbTestCase
 {
     
     //use DatabaseMigrations;

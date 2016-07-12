@@ -33,7 +33,7 @@ class KeyControllerMongoDB extends Controller
         
         $Keys = $Keys->get();
         
-        if(!empty($Keys)) {
+        if (!empty($Keys)) {
             foreach ($Keys as $i => $Key) {
                 $Keys[$i]['id'] = $Key['_id'];
                 $Keys[$i]['entity-key'] = $Key['entity_key'];

@@ -4,7 +4,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class EntityValueTest extends TestCase
+class MongoDbEntityValueTest extends MongoDbTestCase
 {
 
 	//use DatabaseMigrations;

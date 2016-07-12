@@ -17,9 +17,9 @@ class KeyController extends Controller
     public function __construct()
     {
         if (config('database.default') == 'mongodb') {
-        	$this->controller = new KeyControllerMongoDB();
+            $this->controller = new KeyControllerMongoDB();
         } else {
-        	$this->controller = new KeyControllerMySql();
+            $this->controller = new KeyControllerMySql();
         }
     }
 

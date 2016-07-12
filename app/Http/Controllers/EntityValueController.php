@@ -17,9 +17,9 @@ class EntityValueController extends Controller
     public function __construct()
     {
         if (config('database.default') == 'mongodb') {
-        	$this->controller = new EntityValueControllerMongoDB();
+            $this->controller = new EntityValueControllerMongoDB();
         } else {
-        	$this->controller = new EntityValueControllerMySql();
+            $this->controller = new EntityValueControllerMySql();
         }
     }
 

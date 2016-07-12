@@ -1,6 +1,6 @@
 <?php
 
-class TestCase extends Laravel\Lumen\Testing\TestCase
+class MySqlTestCase extends Laravel\Lumen\Testing\TestCase
 {
     /**
      * Creates the application.
@@ -9,7 +9,9 @@ class TestCase extends Laravel\Lumen\Testing\TestCase
      */
     public function createApplication()
     {
-        return require __DIR__.'/../bootstrap/app.php';
+        $app = require __DIR__.'/../bootstrap/app.php';
+        $app['config']['database.default'] = 'mysql';
+        return $app;
     }
     
     /**
