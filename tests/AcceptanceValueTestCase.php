@@ -27,7 +27,7 @@ class AcceptanceValueTestCase extends TestCase
             );
     }
     
-    public function testEntityValueGetFail()
+    public function testValueGetFail()
     {
         $this->get('/api/v1/values/trip/1');
     
@@ -35,7 +35,7 @@ class AcceptanceValueTestCase extends TestCase
     
     }
     
-    public function testEntityValueGetSuccess()
+    public function testValueGetSuccess()
     {
     
         $user = factory('App\User')->make();
@@ -46,7 +46,7 @@ class AcceptanceValueTestCase extends TestCase
         $this->assertEquals($this->response->status(), 200);
     }
     
-    public function testEntityValueWithModelGetSuccess()
+    public function testValueWithModelGetSuccess()
     {
     
         $user = factory('App\User')->make();
@@ -57,7 +57,7 @@ class AcceptanceValueTestCase extends TestCase
         $this->assertEquals($this->response->status(), 200);
     }
     
-    public function testEntityValuePostSuccess()
+    public function testValuePostSuccess()
     {
     
         $user = factory('App\User')->make();
@@ -74,7 +74,7 @@ class AcceptanceValueTestCase extends TestCase
     }
     
     /* based on https://github.com/kidshenlong/comic-cloud-lumen/blob/master/tests/api/ApiTester.php */
-    public function testEntityValuePostWithFileSuccess()
+    public function testValuePostWithFileSuccess()
     {
     
         $user = factory('App\User')->make();
@@ -93,7 +93,7 @@ class AcceptanceValueTestCase extends TestCase
         $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => '160hp']);
     }
     
-    public function testEntityValueWithModelPostSuccess()
+    public function testValueWithModelPostSuccess()
     {
     
         $user = factory('App\User')->make();

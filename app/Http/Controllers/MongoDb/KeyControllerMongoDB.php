@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\MongoDb;
 
-use App\Key;
+use App\Entities\MongoDb;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Entities\MongoDb\KeyMongoDb;
+use App\Repositories\KeyRepository;
 
-class KeyControllerMongoDB extends Controller
+class KeyControllerMongoDb extends Controller
 {
+    
+    private $keyRepository;
+    
     /**
      * Create a new controller instance.
      *
@@ -16,63 +20,31 @@ class KeyControllerMongoDB extends Controller
      */
     public function __construct()
     {
-        //
+        $this->keyRepository = new KeyRepository(KeyMongoDb::class);
     }
 
     public function index($company_id, $entity_key = '-', $description = '-')
     {
-        $Keys = KeyMongoDb::where('company_id', $company_id);
-  
-        if ($entity_key != '-') {
-            $Keys = $Keys->whereIn('entity_key', $this->getEntityKeys($entity_key));
-        }
-        
-        if ($description != '-') {
-            $Keys = $Keys->where('description', 'like', '%'.$description.'%');
-        }
-        
-        $Keys = $Keys->get();
-        
-        if (!empty($Keys)) {
-            foreach ($Keys as $i => $Key) {
-                $Keys[$i]['id'] = $Key['_id'];
-                $Keys[$i]['entity-key'] = $Key['entity_key'];
-            }
-        }
-        
-        return response()->json($Keys);
+        return $this->keyRepository->index($company_id, $entity_key, $description);
     }
   
     public function get($idKey)
     {
-        $Key = KeyMongoDb::find($idKey);
-        $Key['id'] = $idKey;
-
-        return response()->json($Key);
+        return $this->keyRepository->get($idKey);
     }
   
     public function create(Request $request)
     {
-        KeyMongoDb::create($request->all());
-  
-        return response()->json('created');
-  
+        return $this->keyRepository->create($request);
     }
   
     public function delete($idKey)
     {
-        $Key = KeyMongoDb::find($idKey);
-        $Key->delete();
- 
-        return response()->json('deleted');
+        return $this->keyRepository->delete($idKey);
     }
   
     public function update(Request $request, $idKey)
     {
-        $Key = KeyMongoDb::find($idKey);
-        $Key->fill($request->all());
-        $Key->save();
-  
-        return response()->json('updated');
+        return $this->keyRepository->update($request, $idKey);
     }
 }

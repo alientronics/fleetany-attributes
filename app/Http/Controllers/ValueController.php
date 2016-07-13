@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\MongoDb\EntityValueControllerMongoDB;
-use App\Http\Controllers\Mysql\EntityValueControllerMySql;
+use App\Http\Controllers\MongoDb\ValueControllerMongoDB;
+use App\Http\Controllers\Mysql\ValueControllerMySql;
 
-class EntityValueController extends Controller
+class ValueController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -17,9 +17,9 @@ class EntityValueController extends Controller
     public function __construct()
     {
         if (config('database.default') == 'mongodb') {
-            $this->controller = new EntityValueControllerMongoDB();
+            $this->controller = new ValueControllerMongoDB();
         } else {
-            $this->controller = new EntityValueControllerMySql();
+            $this->controller = new ValueControllerMySql();
         }
     }
 

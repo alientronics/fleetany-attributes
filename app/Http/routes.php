@@ -38,10 +38,10 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
     */
 
     /* crud for entity an attributes */
-    $app->get('values/{entity_key}/{entity_id}', 'EntityValueController@get');
-    $app->post('values/{entity_key}/{entity_id}', 'EntityValueController@set');
+    $app->get('values/{entity_key}/{entity_id}', 'ValueController@get');
+    $app->post('values/{entity_key}/{entity_id}', 'ValueController@set');
     /*
-    $app->delete('value/{entity_key}/{entity_id}','EntityValueController@delete');
+    $app->delete('value/{entity_key}/{entity_id}','ValueController@delete');
 	*/
 
 });

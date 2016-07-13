@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Mysql;
+namespace App\Http\Controllers\MySql;
 
 use App\Entities\MySql;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Entities\MySql\KeyMySql;
+use App\Repositories\KeyRepository;
 
 class KeyControllerMySql extends Controller
 {
+    
+    private $keyRepository;
+    
     /**
      * Create a new controller instance.
      *
@@ -17,61 +20,31 @@ class KeyControllerMySql extends Controller
      */
     public function __construct()
     {
-        //
+        $this->keyRepository = new KeyRepository(KeyMySql::class);
     }
 
     public function index($company_id, $entity_key = '-', $description = '-')
     {
-  
-        $Keys = KeyMySql::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
-                    ->where('keys.company_id', $company_id);
-  
-        if ($entity_key != '-') {
-            $Keys = $Keys->whereIn('keys.entity_key', $this->getEntityKeys($entity_key));
-        }
-        
-        if ($description != '-') {
-            $Keys = $Keys->where('keys.description', 'like', '%'.$description.'%');
-        }
-        
-        $Keys = $Keys->get();
-        
-        Storage::put('file.txt', 'Contents');
-
-        return response()->json($Keys);
+        return $this->keyRepository->index($company_id, $entity_key, $description);
     }
   
     public function get($idKey)
     {
-  
-        $Key  = KeyMySql::find($idKey);
-
-        return response()->json($Key);
+        return $this->keyRepository->get($idKey);
     }
   
     public function create(Request $request)
     {
-  
-        KeyMySql::create($request->all());
-  
-        return response()->json('created');
-  
+        return $this->keyRepository->create($request);
     }
   
     public function delete($idKey)
     {
-        $Key  = KeyMySql::find($idKey);
-        $Key->delete();
- 
-        return response()->json('deleted');
+        return $this->keyRepository->delete($idKey);
     }
   
     public function update(Request $request, $idKey)
     {
-        $Key  = KeyMySql::find($idKey);
-        $Key->fill($request->all());
-        $Key->save();
-  
-        return response()->json('updated');
+        return $this->keyRepository->update($request, $idKey);
     }
 }
