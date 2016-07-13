@@ -2,9 +2,9 @@
 
 namespace Tests\MySql;
 
-use Tests\ValueTestCase;
+use Tests\AcceptanceKeyTestCase;
 
-class MySqlEntityValueTest extends ValueTestCase
+class MySqlKeyTest extends AcceptanceKeyTestCase
 {
 
     /**

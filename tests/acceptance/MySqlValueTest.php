@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\MongoDb;
+namespace Tests\MySql;
 
-use Tests\KeyTestCase;
+use Tests\AcceptanceValueTestCase;
 
-class MongoDbKeyTest extends KeyTestCase
+class MySqlValueTest extends AcceptanceValueTestCase
 {
 
     /**
@@ -15,7 +15,7 @@ class MongoDbKeyTest extends KeyTestCase
     public function createApplication()
     {
         $app = require __DIR__.'/../../bootstrap/app.php';
-        $app['config']['database.default'] = 'mongodb';
+        $app['config']['database.default'] = 'mysql';
         return $app;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Tests\MongoDb;
 
-use Tests\ValueTestCase;
+use Tests\AcceptanceKeyTestCase;
 
-class MongoDbEntityValueTest extends ValueTestCase
+class MongoDbKeyTest extends AcceptanceKeyTestCase
 {
 
     /**

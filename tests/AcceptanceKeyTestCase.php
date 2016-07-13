@@ -5,7 +5,7 @@ namespace Tests;
 use Laravel\Lumen\Testing\TestCase;
 use App\Entities\MySql\KeyMySql;
 
-class KeyTestCase extends TestCase
+class AcceptanceKeyTestCase extends TestCase
 {
     /**
      * Creates the application.
