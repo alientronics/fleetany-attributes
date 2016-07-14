@@ -4,7 +4,9 @@ namespace App\Repositories;
 use Illuminate\Http\Request;
 
 class ValueRepository
-{    
+{
+
+    
 
     private $entity;
     

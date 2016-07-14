@@ -18,15 +18,15 @@ class ValueController extends Controller
     public function __construct()
     {
         switch (config('database.default')) {
-            case 'dynamodb' :
+            case 'dynamodb':
                 $this->controller = new ValueControllerDynamoDb();
                 break;
             
-            case 'mongodb' :
+            case 'mongodb':
                 $this->controller = new ValueControllerMongoDb();
                 break;
                 
-            default :
+            default:
                 $this->controller = new ValueControllerMySql();
                 break;
         }

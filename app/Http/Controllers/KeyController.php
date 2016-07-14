@@ -18,15 +18,15 @@ class KeyController extends Controller
     public function __construct()
     {
         switch (config('database.default')) {
-            case 'dynamodb' :
+            case 'dynamodb':
                 $this->controller = new KeyControllerDynamoDb();
                 break;
             
-            case 'mongodb' :
+            case 'mongodb':
                 $this->controller = new KeyControllerMongoDb();
                 break;
                 
-            default :
+            default:
                 $this->controller = new KeyControllerMySql();
                 break;
         }
