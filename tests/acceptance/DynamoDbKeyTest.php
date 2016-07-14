@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\MongoDb;
+namespace Tests\DynamoDb;
 
 use Tests\AcceptanceKeyTestCase;
 
-class MongoDbKeyTest extends AcceptanceKeyTestCase
+class DynamoDbKeyTest extends AcceptanceKeyTestCase
 {
 
     /**

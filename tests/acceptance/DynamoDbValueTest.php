@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\MongoDb;
+namespace Tests\DynamoDb;
 
 use Tests\AcceptanceValueTestCase;
 
-class MongoDbValueTest extends AcceptanceValueTestCase
+class DynamoDbValueTest extends AcceptanceValueTestCase
 {
 
     /**
