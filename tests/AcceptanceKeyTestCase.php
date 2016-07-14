@@ -4,9 +4,11 @@ namespace Tests;
 
 use Laravel\Lumen\Testing\TestCase;
 use App\Entities\MySql\KeyMySql;
+use App\Entities\MongoDb\KeyMongoDb;
 
 class AcceptanceKeyTestCase extends TestCase
 {
+    
     /**
      * Creates the application.
      *
@@ -16,6 +18,15 @@ class AcceptanceKeyTestCase extends TestCase
     {
         $app = require __DIR__.'/../bootstrap/app.php';
         return $app;
+    }
+    
+    private function getEntity()
+    {
+        if(config('database.default') == 'mongodb') {
+            return KeyMongoDb::class;
+        } else {
+            return KeyMySql::class;
+        }
     }
     
     public function testPingApi()
@@ -68,11 +79,13 @@ class AcceptanceKeyTestCase extends TestCase
 
     public function testKeyGetSuccess()
     {
-    
+
+        $entity = $this->getEntity();
+        
         $user = factory('App\User')->make();
     
         $this->actingAs($user)
-            ->get('/api/v1/key/'.KeyMySql::all()->last()['id']);
+            ->get('/api/v1/key/'.$entity::all()->last()['id']);
     
         $this->assertEquals($this->response->status(), 200);
     }
@@ -80,6 +93,8 @@ class AcceptanceKeyTestCase extends TestCase
     public function testKeyUpdateSuccess()
     {
 
+        $entity = $this->getEntity();
+        
         $user = factory('App\User')->make();
 
         $key = [
@@ -94,7 +109,7 @@ class AcceptanceKeyTestCase extends TestCase
             ->post('/api/v1/key', $key)
             ->seeJson(['created']);
 
-        $idUpdate = KeyMySql::all()->last()['id'];
+        $idUpdate = $entity::all()->last()['id'];
         
         $this->seeInDatabase('keys', ['id' => $idUpdate, 'entity_key' => 'vehicle' , 'description' => 'year']);
         
@@ -116,7 +131,8 @@ class AcceptanceKeyTestCase extends TestCase
 
     public function testKeyDeleteSuccess()
     {
-
+        $entity = $this->getEntity();
+        
         $user = factory('App\User')->make();
 
         $key = [
@@ -133,7 +149,7 @@ class AcceptanceKeyTestCase extends TestCase
 
         $this->seeInDatabase('keys', ['entity_key' => 'vehicle' , 'description' => 'year']);
         
-        $idDelete = KeyMySql::all()->last()['id'];
+        $idDelete = $entity::all()->last()['id'];
         
         $this->actingAs($user)
             ->delete('/api/v1/key/'.$idDelete)
