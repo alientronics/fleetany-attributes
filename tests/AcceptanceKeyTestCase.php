@@ -22,11 +22,19 @@ class AcceptanceKeyTestCase extends TestCase
     
     private function getEntity()
     {
-        if(config('database.default') == 'mongodb') {
-            return KeyMongoDb::class;
-        } else {
-            return KeyMySql::class;
-        }
+        switch (config('database.default')) {
+            case 'dynamodb' :
+                return KeyMongoDb::class;
+                break;
+        
+            case 'mongodb' :
+                return KeyMongoDb::class;
+                break;
+        
+            default :
+                return KeyMySql::class;
+                break;
+        } 
     }
     
     public function testPingApi()

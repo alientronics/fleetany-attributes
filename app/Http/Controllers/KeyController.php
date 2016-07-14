@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\MongoDb\KeyControllerMongoDB;
-use App\Http\Controllers\Mysql\KeyControllerMySql;
+use App\Http\Controllers\MongoDb\KeyControllerMongoDb;
+use App\Http\Controllers\MySql\KeyControllerMySql;
+use App\Http\Controllers\DynamoDb\KeyControllerDynamoDb;
 
 class KeyController extends Controller
 {
@@ -16,10 +17,18 @@ class KeyController extends Controller
      */
     public function __construct()
     {
-        if (config('database.default') == 'mongodb') {
-            $this->controller = new KeyControllerMongoDB();
-        } else {
-            $this->controller = new KeyControllerMySql();
+        switch (config('database.default')) {
+            case 'dynamodb' :
+                $this->controller = new KeyControllerDynamoDb();
+                break;
+            
+            case 'mongodb' :
+                $this->controller = new KeyControllerMongoDb();
+                break;
+                
+            default :
+                $this->controller = new KeyControllerMySql();
+                break;
         }
     }
 

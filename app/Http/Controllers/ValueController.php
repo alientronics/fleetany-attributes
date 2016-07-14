@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\MongoDb\ValueControllerMongoDB;
-use App\Http\Controllers\Mysql\ValueControllerMySql;
+use App\Http\Controllers\MongoDb\ValueControllerMongoDb;
+use App\Http\Controllers\MySql\ValueControllerMySql;
+use App\Http\Controllers\DynamoDb\ValueControllerDynamoDb;
 
 class ValueController extends Controller
 {
@@ -16,10 +17,18 @@ class ValueController extends Controller
      */
     public function __construct()
     {
-        if (config('database.default') == 'mongodb') {
-            $this->controller = new ValueControllerMongoDB();
-        } else {
-            $this->controller = new ValueControllerMySql();
+        switch (config('database.default')) {
+            case 'dynamodb' :
+                $this->controller = new ValueControllerDynamoDb();
+                break;
+            
+            case 'mongodb' :
+                $this->controller = new ValueControllerMongoDb();
+                break;
+                
+            default :
+                $this->controller = new ValueControllerMySql();
+                break;
         }
     }
 
