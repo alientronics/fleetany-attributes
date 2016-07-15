@@ -119,7 +119,7 @@ class AcceptanceKeyTestCase extends TestCase
 
         $idUpdate = $entity::all()->last()['id'];
         
-        $this->seeInDatabase('keys', ['id' => $idUpdate, 'entity_key' => 'vehicle' , 'description' => 'year']);
+        $this->seeInDatabase('keys', ['entity_key' => 'vehicle' , 'description' => 'year']);
         
         $keyUpdated = [
             'company_id'  => 1,
@@ -133,7 +133,7 @@ class AcceptanceKeyTestCase extends TestCase
             ->put('/api/v1/key/'.$idUpdate, $keyUpdated)
             ->seeJson(['updated']);
         
-        $this->seeInDatabase('keys', ['id' => $idUpdate, 'entity_key' => 'vehicle.car', 'description' => 'year2']);
+        $this->seeInDatabase('keys', ['entity_key' => 'vehicle.car', 'description' => 'year2']);
 
     }
 
@@ -174,15 +174,11 @@ class AcceptanceKeyTestCase extends TestCase
      * @param  string $connection
      * @return $this
      */
-    protected function seeIsSoftDeletedInDatabase($table, array $data, $connection = null)
+    protected function seeIsSoftDeletedInDatabase($table, array $data)
     {
-        $database = $this->app->make('db');
-    
-        $connection = $connection ?: $database->getDefaultConnection();
-    
-        $count = $database->connection($connection)
-            ->table($table)
-            ->where($data)
+        $entity = $this->getEntity();
+        
+        $count = $entity::where($data)
             ->whereNotNull('deleted_at')
             ->count();
     
