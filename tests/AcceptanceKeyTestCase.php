@@ -174,14 +174,18 @@ class AcceptanceKeyTestCase extends TestCase
      * @param  string $connection
      * @return $this
      */
-    protected function seeIsSoftDeletedInDatabase($table, array $data)
+    protected function seeIsSoftDeletedInDatabase($table, array $data, $connection = null)
     {
-        $entity = $this->getEntity();
-        
-        $count = $entity::where($data)
+        $database = $this->app->make('db');
+    
+        $connection = $connection ?: $database->getDefaultConnection();
+    
+        $count = $database->connection($connection)
+            ->table($table)
+            ->where($data)
             ->whereNotNull('deleted_at')
             ->count();
-    
+var_dump($connection . " - " . $count);
         $this->assertGreaterThan(0, $count, sprintf(
             'Found unexpected records in database table [%s] that matched attributes [%s].',
             $table,
