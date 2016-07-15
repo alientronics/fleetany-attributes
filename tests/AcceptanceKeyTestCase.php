@@ -183,8 +183,7 @@ class AcceptanceKeyTestCase extends TestCase
         if($connection == 'mongodb') {
             $entity = $this->getEntity();
             $register = $entity::find($data['id']);
-            var_dump($register);
-            $count = !empty($register->deleted_at) ? 1 : 0;
+            $count = !empty($register->deleted_at) ? 0 : 1;
         } else {
             $count = $database->connection($connection)
                 ->table($table)
