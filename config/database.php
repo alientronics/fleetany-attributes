@@ -2,7 +2,9 @@
 
 return [
 
-    'default' => 'dynamodb',
+    'driver' => 'dynamodb',
+    
+    'default' => 'mysql',
 
     'connections' => [
 
@@ -31,7 +33,6 @@ return [
             'timezone'  => env('DB_TIMEZONE', '+00:00'),
             'strict'    => env('DB_STRICT_MODE', false),
         ],
-        
     ],
 
     'migrations' => 'migrations',

@@ -22,7 +22,7 @@ class AcceptanceKeyTestCase extends TestCase
     
     private function getEntity()
     {
-        switch (config('database.default')) {
+        switch (config('database.driver')) {
             case 'dynamodb' :
                 return KeyMongoDb::class;
                 break;

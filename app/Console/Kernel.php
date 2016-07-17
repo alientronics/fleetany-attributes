@@ -14,5 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \Mlntn\Console\Commands\Serve::class,
+        \Nord\Lumen\DynamoDb\Console\CreateTablesCommand::class,
     ];
 }

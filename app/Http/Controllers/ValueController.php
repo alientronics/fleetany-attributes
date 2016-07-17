@@ -17,7 +17,7 @@ class ValueController extends Controller
      */
     public function __construct()
     {
-        switch (config('database.default')) {
+        switch (config('database.driver')) {
             case 'dynamodb':
                 $this->controller = new ValueControllerDynamoDb();
                 break;
