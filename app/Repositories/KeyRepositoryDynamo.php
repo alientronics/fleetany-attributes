@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use Illuminate\Http\Request;
+use Log;
 
 class KeyRepositoryDynamo extends KeyRepository
 {
@@ -10,27 +11,37 @@ class KeyRepositoryDynamo extends KeyRepository
     
         $entity = $this->entity;
 
-        $Keys = $entity::where('company_id', $company_id);
+        $Keys = $entity::where('company_id', 1);
     
         if ($entity_key != '-') {
-            $Keys = $Keys->whereIn('entity_key', HelperRepository::getEntityKeys($entity_key));
+            $Keys = $Keys->where('entity_key', $entity_key);
         }
     
         if ($description != '-') {
-            $Keys = $Keys->where('description', 'like', '%'.$description.'%');
+            $Keys = $Keys->where('description', $description);
         }
     
         $Keys = $Keys->get();
-    
+
+        if(!empty($Keys)) {
+            foreach($Keys as $i => $Key) {
+                $Keys[$i]['entity-key'] = $Keys[$i]['entity_key'];
+            }
+        }
+        
         return response()->json($Keys);
     }
     
     public function get($idKey)
     {
         $entity = $this->entity;
-        
-        $Key = $entity::where('id', $idKey);
+
+        $Key = $entity::where('id', (int)$idKey);
         $Key = $Key->get()->first();
+        
+        if(!empty($Key)) {
+            $Key['id'] = $idKey;
+        }
         
         return response()->json($Key);
     }
@@ -38,8 +49,12 @@ class KeyRepositoryDynamo extends KeyRepository
     public function create(Request $request)
     {
         $entity = $this->entity;
-       
-        $model = new $entity($request->all());
+
+        $inputs = $request->all();
+        $inputs['company_id'] = (int) $inputs['company_id'];
+        
+        $model = new $entity($inputs);
+        $model->setId($this->getLastRecordId() + 1);
         $model->save();
     
         return response()->json('created');
@@ -48,7 +63,7 @@ class KeyRepositoryDynamo extends KeyRepository
     public function delete($idKey)
     {
         $entity = $this->entity;
-        $Key = $entity::where('id', $idKey);
+        $Key = $entity::where('id', (int) $idKey);
         $Key = $Key->get()->first();
         $Key->delete();
     
@@ -58,11 +73,24 @@ class KeyRepositoryDynamo extends KeyRepository
     public function update(Request $request, $idKey)
     {
         $entity = $this->entity;
-        $Key = $entity::where('id', $idKey);
-        $Key = $Key->get()->first();
-        $Key->fill($request->all());
-        $Key->save();
+        
+        $inputs = $request->all();
+        $inputs['company_id'] = (int) $inputs['company_id'];
+        
+        $model = new $entity($inputs);
+        $model->setId((int)$idKey);
+        $model->save();
     
         return response()->json('updated');
+    }
+    
+    private function getLastRecordId () {
+        $entity = $this->entity;
+        $Key = $entity::where([]);
+        $Key = $Key->get()->last();
+        
+        $id = empty($Key) ? 0 : $Key['id'];
+        
+        return $id;
     }
 }

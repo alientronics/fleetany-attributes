@@ -6,7 +6,7 @@ return [
         'AttributeDefinitions'  => [
             [
                 'AttributeName' => 'id',
-                'AttributeType' => 'S',
+                'AttributeType' => 'N',
             ],
             [
                 'AttributeName' => 'company_id',
@@ -14,19 +14,19 @@ return [
             ],
             [
                 'AttributeName' => 'entity_key',
-                'AttributeType'       => 'N',
+                'AttributeType'       => 'S',
             ],
             [
                 'AttributeName' => 'description',
-                'AttributeType'       => 'N',
+                'AttributeType'       => 'S',
             ],
             [
                 'AttributeName' => 'type',
-                'AttributeType'       => 'N',
+                'AttributeType'       => 'S',
             ],
             [
                 'AttributeName' => 'options',
-                'AttributeType'       => 'N',
+                'AttributeType'       => 'S',
             ],
         ],
         'KeySchema'             => [
@@ -132,11 +132,11 @@ return [
         'AttributeDefinitions'  => [
             [
                 'AttributeName' => 'id',
-                'AttributeType' => 'S',
+                'AttributeType' => 'N',
             ],
             [
                 'AttributeName' => 'entity_key',
-                'AttributeType'       => 'N',
+                'AttributeType'       => 'S',
             ],
             [
                 'AttributeName' => 'entity_id',
@@ -148,7 +148,7 @@ return [
             ],
             [
                 'AttributeName' => 'value',
-                'AttributeType'       => 'N',
+                'AttributeType'       => 'S',
             ],
         ],
         'KeySchema'             => [
