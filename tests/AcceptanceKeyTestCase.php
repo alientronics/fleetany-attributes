@@ -5,6 +5,7 @@ namespace Tests;
 use Laravel\Lumen\Testing\TestCase;
 use App\Entities\MySql\KeyMySql;
 use App\Entities\MongoDb\KeyMongoDb;
+use App\Entities\DynamoDb\KeyDynamoDb;
 
 class AcceptanceKeyTestCase extends TestCase
 {
@@ -24,7 +25,7 @@ class AcceptanceKeyTestCase extends TestCase
     {
         switch (config('database.driver')) {
             case 'dynamodb' :
-                return KeyMongoDb::class;
+                return KeyDynamoDb::class;
                 break;
         
             case 'mongodb' :
