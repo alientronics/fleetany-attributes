@@ -1,37 +1,26 @@
 <?php
 namespace App\Repositories;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
-class KeyRepository
+class KeyRepositoryDynamo extends KeyRepository
 {
-    protected $entity;
-    
-    public function __construct($entity)
-    {
-        $this->entity = $entity;
-    }
-    
     public function index($company_id, $entity_key = '-', $description = '-')
     {
     
         $entity = $this->entity;
 
-        $Keys = $entity::select('*', 'entity_key as entity-key', 'entity_key as entity-key')
-            ->where('keys.company_id', $company_id);
+        $Keys = $entity::where('company_id', $company_id);
     
         if ($entity_key != '-') {
-            $Keys = $Keys->whereIn('keys.entity_key', HelperRepository::getEntityKeys($entity_key));
+            $Keys = $Keys->whereIn('entity_key', HelperRepository::getEntityKeys($entity_key));
         }
     
         if ($description != '-') {
-            $Keys = $Keys->where('keys.description', 'like', '%'.$description.'%');
+            $Keys = $Keys->where('description', 'like', '%'.$description.'%');
         }
     
         $Keys = $Keys->get();
-    
-        Storage::put('file.txt', 'Contents');
     
         return response()->json($Keys);
     }
@@ -39,24 +28,29 @@ class KeyRepository
     public function get($idKey)
     {
         $entity = $this->entity;
-        $Key  = $entity::find($idKey);
-    
+        
+        $Key = $entity::where('id', $idKey);
+        $Key = $Key->get()->first();
+        
         return response()->json($Key);
     }
     
     public function create(Request $request)
     {
         $entity = $this->entity;
-        $entity::create($request->all());
+       
+        $inputs = $request->all();
+        $model = new $entity($request->all());
+        $model->save();
     
         return response()->json('created');
-    
     }
     
     public function delete($idKey)
     {
         $entity = $this->entity;
-        $Key  = $entity::find($idKey);
+        $Key = $entity::where('id', $idKey);
+        $Key = $Key->get()->first();
         $Key->delete();
     
         return response()->json('deleted');
@@ -65,7 +59,8 @@ class KeyRepository
     public function update(Request $request, $idKey)
     {
         $entity = $this->entity;
-        $Key  = $entity::find($idKey);
+        $Key = $entity::where('id', $idKey);
+        $Key = $Key->get()->first();
         $Key->fill($request->all());
         $Key->save();
     

@@ -36,6 +36,7 @@ before_script:
   - mysql -e 'create database alientronics;'
   - mv .env.example .env
   - php artisan migrate:refresh --seed --force
+  - php artisan dynamodb:create --config=config/dynamodb.php
 
 script:
   - phpunit --stderr --configuration phpunit.xml --debug --coverage-clover build/logs/clover.xml

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Entities\DynamoDb\KeyDynamoDb;
 use App\Repositories\KeyRepository;
+use App\Repositories\KeyRepositoryDynamo;
 
 class KeyControllerDynamoDb extends Controller
 {
@@ -20,7 +21,7 @@ class KeyControllerDynamoDb extends Controller
      */
     public function __construct()
     {
-        $this->keyRepository = new KeyRepository(KeyDynamoDb::class);
+        $this->keyRepository = new KeyRepositoryDynamo(KeyDynamoDb::class);
     }
 
     public function index($company_id, $entity_key = '-', $description = '-')
