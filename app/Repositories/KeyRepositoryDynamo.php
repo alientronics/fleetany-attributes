@@ -39,7 +39,6 @@ class KeyRepositoryDynamo extends KeyRepository
     {
         $entity = $this->entity;
        
-        $inputs = $request->all();
         $model = new $entity($request->all());
         $model->save();
     

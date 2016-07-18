@@ -16,6 +16,7 @@ class MySqlKeyTest extends AcceptanceKeyTestCase
     {
         $app = require __DIR__.'/../../bootstrap/app.php';
         $app['config']['database.default'] = 'mysql';
+        $app['config']['database.driver'] = 'mysql';
         return $app;
     }
 }

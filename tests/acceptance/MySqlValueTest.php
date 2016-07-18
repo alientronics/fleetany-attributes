@@ -16,6 +16,7 @@ class MySqlValueTest extends AcceptanceValueTestCase
     {
         $app = require __DIR__.'/../../bootstrap/app.php';
         $app['config']['database.default'] = 'mysql';
+        $app['config']['database.driver'] = 'mysql';
         return $app;
     }
 }

@@ -16,6 +16,7 @@ class MongoDbValueTest extends AcceptanceValueTestCase
     {
         $app = require __DIR__.'/../../bootstrap/app.php';
         $app['config']['database.default'] = 'mongodb';
+        $app['config']['database.driver'] = 'mongodb';
         return $app;
     }
 }

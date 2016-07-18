@@ -15,7 +15,7 @@ class DynamoDbKeyTest extends AcceptanceKeyTestCase
     public function createApplication()
     {
         $app = require __DIR__.'/../../bootstrap/app.php';
-        $app['config']['database.default'] = 'dynamodb';
+        $app['config']['database.driver'] = 'dynamodb';
         return $app;
     }
 }
