@@ -2,7 +2,6 @@
 namespace App\Repositories;
 
 use Illuminate\Http\Request;
-use Log;
 
 class KeyRepositoryDynamo extends KeyRepository
 {
@@ -23,9 +22,9 @@ class KeyRepositoryDynamo extends KeyRepository
     
         $Keys = $Keys->get();
 
-        if(!empty($Keys)) {
-            foreach($Keys as $i => $Key) {
-                $Keys[$i]['entity-key'] = $Keys[$i]['entity_key'];
+        if (!empty($Keys)) {
+            foreach ($Keys as $i => $Key) {
+                $Keys[$i]['entity-key'] = $Key['entity_key'];
             }
         }
         
@@ -39,7 +38,7 @@ class KeyRepositoryDynamo extends KeyRepository
         $Key = $entity::where('id', (int)$idKey);
         $Key = $Key->get()->first();
         
-        if(!empty($Key)) {
+        if (!empty($Key)) {
             $Key['id'] = $idKey;
         }
         
@@ -51,6 +50,8 @@ class KeyRepositoryDynamo extends KeyRepository
         $entity = $this->entity;
 
         $inputs = $request->all();
+        $inputs['description'] = empty($inputs['description']) ? " " : $inputs['description'];
+        $inputs['options'] = empty($inputs['options']) ? " " : $inputs['options'];
         $inputs['company_id'] = (int) $inputs['company_id'];
         
         $model = new $entity($inputs);
@@ -75,6 +76,8 @@ class KeyRepositoryDynamo extends KeyRepository
         $entity = $this->entity;
         
         $inputs = $request->all();
+        $inputs['description'] = empty($inputs['description']) ? " " : $inputs['description'];
+        $inputs['options'] = empty($inputs['options']) ? " " : $inputs['options'];
         $inputs['company_id'] = (int) $inputs['company_id'];
         
         $model = new $entity($inputs);
@@ -84,13 +87,14 @@ class KeyRepositoryDynamo extends KeyRepository
         return response()->json('updated');
     }
     
-    private function getLastRecordId () {
+    private function getLastRecordId()
+    {
         $entity = $this->entity;
         $Key = $entity::where([]);
         $Key = $Key->get()->last();
         
-        $id = empty($Key) ? 0 : $Key['id'];
+        $idLastRecord = empty($Key) ? 0 : $Key['id'];
         
-        return $id;
+        return $idLastRecord;
     }
 }
