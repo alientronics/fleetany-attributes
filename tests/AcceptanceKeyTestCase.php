@@ -118,18 +118,13 @@ class AcceptanceKeyTestCase extends TestCase
             ->post('/api/v1/key', $key)
             ->seeJson(['created']);
 
-        if(config('database.driver') == 'dynamodb') {
-            var_dump(config('database.driver'));
-            $idUpdate = 1;
-        } else {
-            $idUpdate = $entity::all()->last()['id'];
-        }
+        $idUpdate = $entity::all()->last()['id'];
         
         $this->seeInDatabase('keys', ['entity_key' => 'vehicle' , 'description' => 'year']);
         
         $keyUpdated = [
             'company_id'  => 1,
-            'entity_key'  => 'vehicle',
+            'entity_key'  => 'vehicle.car',
             'description'  => 'year2',
             'type'  => 'string',
             'options' => 'first'
@@ -139,7 +134,7 @@ class AcceptanceKeyTestCase extends TestCase
             ->put('/api/v1/key/'.$idUpdate, $keyUpdated)
             ->seeJson(['updated']);
         
-        $this->seeInDatabase('keys', ['type'  => 'string', 'description' => 'year2']);
+        $this->seeInDatabase('keys', ['entity_key' => 'vehicle.car', 'description' => 'year2']);
 
     }
 

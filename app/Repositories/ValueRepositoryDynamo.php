@@ -10,7 +10,7 @@ class ValueRepositoryDynamo extends ValueRepository
         $entity = $this->entity;
         
         $Values = $entity::where('entity_key', $entity_key)
-            ->where('entity_id', $entity_id)
+            ->where('entity_id', (int) $entity_id)
             ->get();
     
         return response()->json($Values);
@@ -28,23 +28,25 @@ class ValueRepositoryDynamo extends ValueRepository
                     $files[] = $key;
                 } elseif ($key != 'api_token') {
                     $fields['entity_key'] = $entity_key;
-                    $fields['entity_id'] = $entity_id;
-                    $fields['attribute_id'] = $key;
+                    $fields['entity_id'] = (int) $entity_id;
+                    $fields['attribute_id'] = (int) $key;
                     $fields['value'] = $value;
-    
-                    $update = $entity::where('entity_key', $entity_key)
+
+                    $record = $entity::where('entity_key', $entity_key)
                         ->where('entity_id', $entity_id)
-                        ->where('attribute_id', $key);
+                        ->where('attribute_id', $key)
+                        ->get()
+                        ->first();
+    
+                    if (empty($record)) {
+                        $idRecord = HelperRepository::getLastRecordId($entity) + 1;
+                    } else {
+                        $idRecord = (int) $record['id'];
+                    }
                     
                     $model = new $entity($fields);
-                    $model->setId((int) $update['id']);
+                    $model->setId($idRecord);
                     $model->save();
-    
-                    if (empty($update)) {
-                        $model = new $entity($fields);
-                        $model->setId(HelperRepository::getLastRecordId($entity) + 1);
-                        $model->save();
-                    }
                 }
             }
         }
