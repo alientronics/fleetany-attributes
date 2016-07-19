@@ -6,7 +6,7 @@ return [
         'secret'   => env('DYNAMODB_SECRET', 'secret'),
         'region'   => env('DYNAMODB_REGION', 'eu-central-1'),
         'version'  => env('DYNAMODB_VERSION', 'latest'),
-        'endpoint' => env('DYNAMODB_LOCAL_ENDPOINT', 'http://localhost:8001'),
+        'endpoint' => env('DYNAMODB_LOCAL_ENDPOINT', 'http://localhost:8000'),
         'credentials' => [
             'key' => 'not-a-real-key',
             'secret' => 'not-a-real-secret',
