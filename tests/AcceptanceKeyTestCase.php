@@ -134,7 +134,7 @@ class AcceptanceKeyTestCase extends TestCase
             ->put('/api/v1/key/'.$idUpdate, $keyUpdated)
             ->seeJson(['updated']);
         
-        $this->seeInDatabase('keys', ['entity_key' => 'vehicle.car', 'description' => 'year2']);
+        $this->seeInDatabase('keys', ['type' => 'string', 'description' => 'year2']);
 
     }
 
