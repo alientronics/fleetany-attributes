@@ -3,23 +3,13 @@ namespace App\Repositories;
 
 use Illuminate\Http\Request;
 
-class ValueRepository
+class ValueRepositoryDynamo extends ValueRepository
 {
-
-    
-
-    protected $entity;
-    
-    public function __construct($entity)
-    {
-        $this->entity = $entity;
-    }
-    
     public function get($entity_key, $entity_id)
     {
         $entity = $this->entity;
         
-        $Values = $entity::whereIn('entity_key', HelperRepository::getEntityKeys($entity_key))
+        $Values = $entity::where('entity_key', $entity_key)
             ->where('entity_id', $entity_id)
             ->get();
     
@@ -44,11 +34,16 @@ class ValueRepository
     
                     $update = $entity::where('entity_key', $entity_key)
                         ->where('entity_id', $entity_id)
-                        ->where('attribute_id', $key)
-                        ->update($fields);
+                        ->where('attribute_id', $key);
+                    
+                    $model = new $entity($fields);
+                    $model->setId((int) $update['id']);
+                    $model->save();
     
                     if (empty($update)) {
-                        $entity::create($fields);
+                        $model = new $entity($fields);
+                        $model->setId(HelperRepository::getLastRecordId($entity) + 1);
+                        $model->save();
                     }
                 }
             }

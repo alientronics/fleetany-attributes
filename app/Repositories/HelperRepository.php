@@ -26,4 +26,14 @@ class HelperRepository
             }
         }
     }
+    
+    public static function getLastRecordId($entity)
+    {
+        $Key = $entity::where([]);
+        $Key = $Key->get()->last();
+    
+        $idLastRecord = empty($Key) ? 0 : $Key['id'];
+    
+        return $idLastRecord;
+    }
 }

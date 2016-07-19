@@ -55,7 +55,7 @@ class KeyRepositoryDynamo extends KeyRepository
         $inputs['company_id'] = (int) $inputs['company_id'];
         
         $model = new $entity($inputs);
-        $model->setId($this->getLastRecordId() + 1);
+        $model->setId(HelperRepository::getLastRecordId($entity) + 1);
         $model->save();
     
         return response()->json('created');
@@ -85,16 +85,5 @@ class KeyRepositoryDynamo extends KeyRepository
         $model->save();
     
         return response()->json('updated');
-    }
-    
-    private function getLastRecordId()
-    {
-        $entity = $this->entity;
-        $Key = $entity::where([]);
-        $Key = $Key->get()->last();
-        
-        $idLastRecord = empty($Key) ? 0 : $Key['id'];
-        
-        return $idLastRecord;
     }
 }

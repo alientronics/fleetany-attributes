@@ -6,7 +6,7 @@ use App\Entities\DynamoDb;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Entities\DynamoDb\ValueDynamoDb;
-use App\Repositories\ValueRepository;
+use App\Repositories\ValueRepositoryDynamo;
 
 class ValueControllerDynamoDb extends Controller
 {
@@ -20,7 +20,7 @@ class ValueControllerDynamoDb extends Controller
      */
     public function __construct()
     {
-        $this->valueRepository = new ValueRepository(ValueDynamoDb::class);
+        $this->valueRepository = new ValueRepositoryDynamo(ValueDynamoDb::class);
     }
     
     public function get($entity_key, $entity_id)
