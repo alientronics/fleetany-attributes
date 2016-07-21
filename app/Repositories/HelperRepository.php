@@ -27,13 +27,20 @@ class HelperRepository
         }
     }
     
-    public static function getLastRecordId($entity)
+    public static function getDynamoDbLastRecordId($entity)
     {
-        $Key = $entity::where([]);
-        $Key = $Key->get()->last();
+        $Keys = $entity::where([]);
+        $Keys = $Keys->get();
     
-        $idLastRecord = empty($Key) ? 0 : $Key['id'];
-    
+        $idLastRecord = 0;
+        if(!empty($Keys)) {
+            foreach ($Keys as $Key) {
+                if($Key['id'] > $idLastRecord) {
+                    $idLastRecord = $Key['id'];
+                }
+            }
+        }
+        
         return $idLastRecord;
     }
 }

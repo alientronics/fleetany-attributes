@@ -7,6 +7,16 @@ class ValueRepositoryDynamo extends ValueRepository
 {
     public function get($entity_key, $entity_id)
     {
+        $entity_keys = HelperRepository::getEntityKeys($entity_key);
+        
+        if (count($entity_keys) > 1) {
+            $Keys1 = $this->searchValues($entity_keys[0], $entity_id);
+            $Keys2 = $this->searchValues($entity_keys[1], $entity_id);
+            $Keys = $Keys1->merge($Keys2);
+        } else {
+            $Keys = $this->searchValues($entity_key, $entity_id);
+        }
+        
         $entity = $this->entity;
         
         $Values = $entity::where('entity_key', $entity_key)
@@ -15,6 +25,17 @@ class ValueRepositoryDynamo extends ValueRepository
     
         return response()->json($Values);
     
+    }
+    
+    private function searchValues($entity_key, $entity_id)
+    {
+        $entity = $this->entity;
+        
+        $Values = $entity::where('entity_key', $entity_key)
+            ->where('entity_id', (int) $entity_id)
+            ->get();
+        
+        return $Values;
     }
     
     public function set(Request $request, $entity_key, $entity_id)
@@ -39,7 +60,7 @@ class ValueRepositoryDynamo extends ValueRepository
                         ->first();
     
                     if (empty($record)) {
-                        $idRecord = HelperRepository::getLastRecordId($entity) + 1;
+                        $idRecord = HelperRepository::getDynamoDbLastRecordId($entity) + 1;
                     } else {
                         $idRecord = (int) $record['id'];
                     }

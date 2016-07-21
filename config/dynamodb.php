@@ -34,10 +34,6 @@ return [
                 'AttributeName' => 'id',
                 'KeyType'       => 'HASH',
             ],
-            [
-                'AttributeName' => 'company_id',
-                'KeyType'       => 'RANGE',
-            ],
         ],
         'GlobalSecondaryIndexes' => [
             [
@@ -48,7 +44,7 @@ return [
                         'KeyType' => 'HASH',
                     ],
                     [
-                        'AttributeName' => 'entity_key',
+                        'AttributeName' => 'company_id',
                         'KeyType' => 'RANGE',
                     ],
                 ],
@@ -68,7 +64,7 @@ return [
                         'KeyType' => 'HASH',
                     ],
                     [
-                        'AttributeName' => 'description',
+                        'AttributeName' => 'entity_key',
                         'KeyType' => 'RANGE',
                     ],
                 ],
@@ -88,7 +84,7 @@ return [
                         'KeyType' => 'HASH',
                     ],
                     [
-                        'AttributeName' => 'type',
+                        'AttributeName' => 'description',
                         'KeyType' => 'RANGE',
                     ],
                 ],
@@ -102,6 +98,26 @@ return [
             ],
             [
                 'IndexName' => 'index_name_4',
+                'KeySchema' => [
+                    [
+                        'AttributeName' => 'id',
+                        'KeyType' => 'HASH',
+                    ],
+                    [
+                        'AttributeName' => 'type',
+                        'KeyType' => 'RANGE',
+                    ],
+                ],
+                'Projection' => [
+                    'ProjectionType' => 'KEYS_ONLY',
+                ],
+                'ProvisionedThroughput' => [
+                    'ReadCapacityUnits' => 1,
+                    'WriteCapacityUnits' => 1,
+                ],
+            ],
+            [
+                'IndexName' => 'index_name_5',
                 'KeySchema' => [
                     [
                         'AttributeName' => 'id',
@@ -156,14 +172,33 @@ return [
                 'AttributeName' => 'id',
                 'KeyType'       => 'HASH',
             ],
-            [
-                'AttributeName' => 'entity_key',
-                'KeyType'       => 'RANGE',
-            ],
         ],
         'GlobalSecondaryIndexes' => [
             [
                 'IndexName' => 'index_name_1',
+                'KeySchema' => [
+                    [
+                        'AttributeName' => 'id',
+                        'KeyType' => 'HASH',
+                    ],
+                    [
+                        'AttributeName' => 'entity_key',
+                        'KeyType' => 'RANGE',
+                    ],
+                ],
+                'Projection' => [
+                    'ProjectionType' => 'INCLUDE',
+                    'NonKeyAttributes' => [
+                        'entity_key',
+                    ],
+                ],
+                'ProvisionedThroughput' => [
+                    'ReadCapacityUnits' => 1,
+                    'WriteCapacityUnits' => 1,
+                ],
+            ],
+            [
+                'IndexName' => 'index_name_2',
                 'KeySchema' => [
                     [
                         'AttributeName' => 'id',
@@ -186,7 +221,7 @@ return [
                 ],
             ],
             [
-                'IndexName' => 'index_name_2',
+                'IndexName' => 'index_name_3',
                 'KeySchema' => [
                     [
                         'AttributeName' => 'id',
@@ -209,7 +244,7 @@ return [
                 ],
             ],
             [
-                'IndexName' => 'index_name_3',
+                'IndexName' => 'index_name_4',
                 'KeySchema' => [
                     [
                         'AttributeName' => 'id',

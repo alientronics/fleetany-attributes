@@ -7,7 +7,21 @@ class KeyRepositoryDynamo extends KeyRepository
 {
     public function index($company_id, $entity_key = '-', $description = '-')
     {
+        $entity_keys = HelperRepository::getEntityKeys($entity_key);
+        
+        if (count($entity_keys) > 1) {
+            $Keys1 = $this->searchKeys($company_id, $entity_keys[0], $description);
+            $Keys2 = $this->searchKeys($company_id, $entity_keys[1], $description);
+            $Keys = $Keys1->merge($Keys2);
+        } else {
+            $Keys = $this->searchKeys($company_id, $entity_key, $description);
+        }
+        
+        return response()->json($Keys);
+    }
     
+    private function searchKeys($company_id, $entity_key, $description) 
+    {
         $entity = $this->entity;
 
         $Keys = $entity::where('company_id', 1);
@@ -25,10 +39,18 @@ class KeyRepositoryDynamo extends KeyRepository
         if (!empty($Keys)) {
             foreach ($Keys as $i => $Key) {
                 $Keys[$i]['entity-key'] = $Key['entity_key'];
+                
+                if($Key['description'] == " ") {
+                    $Keys[$i]['description'] = "";
+                }
+                
+                if($Key['options'] == " ") {
+                    $Keys[$i]['options'] = "";
+                }
             }
         }
         
-        return response()->json($Keys);
+        return $Keys;
     }
     
     public function get($idKey)
@@ -40,6 +62,14 @@ class KeyRepositoryDynamo extends KeyRepository
         
         if (!empty($Key)) {
             $Key['id'] = $idKey;
+            
+            if($Key['description'] == " ") {
+                $Key['description'] = "";
+            }
+            
+            if($Key['options'] == " ") {
+                $Key['options'] = "";
+            }
         }
         
         return response()->json($Key);
@@ -55,7 +85,7 @@ class KeyRepositoryDynamo extends KeyRepository
         $inputs['company_id'] = (int) $inputs['company_id'];
         
         $model = new $entity($inputs);
-        $model->setId(HelperRepository::getLastRecordId($entity) + 1);
+        $model->setId(HelperRepository::getDynamoDbLastRecordId($entity) + 1);
         $model->save();
     
         return response()->json('created');
