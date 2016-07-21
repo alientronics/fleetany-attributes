@@ -20,11 +20,11 @@ class KeyRepositoryDynamo extends KeyRepository
         return response()->json($Keys);
     }
     
-    private function searchKeys($company_id, $entity_key, $description) 
+    private function searchKeys($company_id, $entity_key, $description)
     {
         $entity = $this->entity;
 
-        $Keys = $entity::where('company_id', 1);
+        $Keys = $entity::where('company_id', (int)$company_id);
     
         if ($entity_key != '-') {
             $Keys = $Keys->where('entity_key', $entity_key);
@@ -40,11 +40,11 @@ class KeyRepositoryDynamo extends KeyRepository
             foreach ($Keys as $i => $Key) {
                 $Keys[$i]['entity-key'] = $Key['entity_key'];
                 
-                if($Key['description'] == " ") {
+                if ($Key['description'] == " ") {
                     $Keys[$i]['description'] = "";
                 }
                 
-                if($Key['options'] == " ") {
+                if ($Key['options'] == " ") {
                     $Keys[$i]['options'] = "";
                 }
             }
@@ -63,11 +63,11 @@ class KeyRepositoryDynamo extends KeyRepository
         if (!empty($Key)) {
             $Key['id'] = $idKey;
             
-            if($Key['description'] == " ") {
+            if ($Key['description'] == " ") {
                 $Key['description'] = "";
             }
             
-            if($Key['options'] == " ") {
+            if ($Key['options'] == " ") {
                 $Key['options'] = "";
             }
         }

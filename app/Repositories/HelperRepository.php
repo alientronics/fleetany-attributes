@@ -33,9 +33,9 @@ class HelperRepository
         $Keys = $Keys->get();
     
         $idLastRecord = 0;
-        if(!empty($Keys)) {
+        if (!empty($Keys)) {
             foreach ($Keys as $Key) {
-                if($Key['id'] > $idLastRecord) {
+                if ($Key['id'] > $idLastRecord) {
                     $idLastRecord = $Key['id'];
                 }
             }
