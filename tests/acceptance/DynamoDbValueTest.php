@@ -3,6 +3,7 @@
 namespace Tests\DynamoDb;
 
 use Tests\AcceptanceValueTestCase;
+use App\Entities\DynamoDb\ValueDynamoDb;
 
 class DynamoDbValueTest extends AcceptanceValueTestCase
 {
@@ -37,8 +38,7 @@ class DynamoDbValueTest extends AcceptanceValueTestCase
             }
         }
         
-        $entity = $this->getEntity();
-        $Key = $entity::where($data);
+        $Key = ValueDynamoDb::where($data);
         $Key = $Key->get()->first();
         
         if (empty($Key)) {
