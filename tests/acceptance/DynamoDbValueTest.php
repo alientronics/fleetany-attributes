@@ -31,7 +31,7 @@ class DynamoDbValueTest extends AcceptanceValueTestCase
      */
     protected function seeInDatabase($table, array $data, $onConnection = null)
     {
-        if(!empty($data)) {
+        if(!empty($data)) {var_dump($data);
             $key = KeyDynamoDb::where([
                 "entity_key" => $data['entity_key'],
                 "id" => $data['attribute_id']
