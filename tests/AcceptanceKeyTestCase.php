@@ -21,7 +21,7 @@ class AcceptanceKeyTestCase extends TestCase
         return $app;
     }
     
-    private function getEntity()
+    protected function getEntity()
     {
         switch (config('database.driver')) {
             case 'dynamodb' :
