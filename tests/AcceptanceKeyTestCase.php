@@ -180,18 +180,12 @@ class AcceptanceKeyTestCase extends TestCase
         $database = $this->app->make('db');
     
         $connection = $connection ?: $database->getDefaultConnection();
-    
-        if($connection == 'mongodb') {
-            $entity = $this->getEntity();
-            $register = $entity::find($data['id']);
-            $count = !empty($register->deleted_at) ? 0 : 1;
-        } else {
-            $count = $database->connection($connection)
-                ->table($table)
-                ->where($data)
-                ->whereNotNull('deleted_at')
-                ->count();
-        }
+
+        $count = $database->connection($connection)
+            ->table($table)
+            ->where($data)
+            ->whereNotNull('deleted_at')
+            ->count();
         
         $this->assertGreaterThan(0, $count, sprintf(
             'Found unexpected records in database table [%s] that matched attributes [%s].',
