@@ -9,6 +9,11 @@ use App\Entities\DynamoDb\KeyDynamoDb;
 class DynamoDbValueTest extends AcceptanceValueTestCase
 {
 
+    public function __construct($name = null, array $data = array(), $dataName = '') {
+        parent::__construct($name, $data, $dataName);  
+        $this->factory_key = 'App\Entities\DynamoDb\KeyDynamoDb';
+    }
+    
     /**
      * Creates the application.
      *
@@ -31,7 +36,7 @@ class DynamoDbValueTest extends AcceptanceValueTestCase
      */
     protected function seeInDatabase($table, array $data, $onConnection = null)
     {
-        if(!empty($data)) {var_dump($data);
+        if(!empty($data)) {
             $key = KeyDynamoDb::where([
                 "entity_key" => $data['entity_key'],
                 "id" => $data['attribute_id']

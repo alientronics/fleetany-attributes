@@ -6,7 +6,11 @@ use Tests\AcceptanceValueTestCase;
 
 class MySqlValueTest extends AcceptanceValueTestCase
 {
-
+    public function __construct($name = null, array $data = array(), $dataName = '') {
+        parent::__construct($name, $data, $dataName);
+        $this->factory_key = 'App\Entities\MySql\KeyMySql';
+    }
+    
     /**
      * Creates the application.
      *

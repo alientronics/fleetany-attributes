@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AcceptanceValueTestCase extends TestCase
 {
+    protected $factory_key;
+    
     /**
      * Creates the application.
      *
@@ -61,19 +63,21 @@ class AcceptanceValueTestCase extends TestCase
     {
 
         $user = factory('App\User')->make();
-        $value = factory('App\Entities\MySql\ValueMySql')->make([
-            'entity_key' => 'vehicle.car'
+        $key1 = factory($this->factory_key)->make([
+            'type' => 'numeric'
         ]);
-    var_dump($value);
-        $data = ['1' => 'a2015', '2' => 'BMW', '3' => '120hp'];
+        $key2 = factory($this->factory_key)->make();
+        $key3 = factory($this->factory_key)->make();
+            
+        $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
         $this->actingAs($user)
             ->post('/api/v1/values/vehicle/1', $data)
             ->seeJson(['created']);
     
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => 1 , 'value' => 'a2015']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => 'BMW']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => '120hp']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key1->id , 'value' => '2015']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key2->id , 'value' => 'BMW']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key3->id , 'value' => '120hp']);
     }
     
     /* based on https://github.com/kidshenlong/comic-cloud-lumen/blob/master/tests/api/ApiTester.php */
@@ -81,8 +85,13 @@ class AcceptanceValueTestCase extends TestCase
     {
     
         $user = factory('App\User')->make();
+        $key1 = factory($this->factory_key)->make([
+            'type' => 'numeric'
+        ]);
+        $key2 = factory($this->factory_key)->make();
+        $key3 = factory($this->factory_key)->make();
     
-        $data = ['1' => 'a2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
+        $data = ['1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
     
         $file = new UploadedFile(storage_path('test/file.txt'), 'file.txt', null, null, null, TRUE);
     
@@ -91,24 +100,34 @@ class AcceptanceValueTestCase extends TestCase
     
         $this->seeJson(['created']);
     
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => 'a2016']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => 'Porsche']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => '160hp']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key1->id , 'value' => '2016']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key2->id , 'value' => 'Porsche']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key3->id , 'value' => '160hp']);
     }
     
     public function testValueWithModelPostSuccess()
     {
     
         $user = factory('App\User')->make();
+        $key1 = factory($this->factory_key)->make([
+            'entity_key' => 'vehicle.car',
+            'type' => 'numeric'
+        ]);
+        $key2 = factory($this->factory_key)->make([
+            'entity_key' => 'vehicle.car'
+        ]);
+        $key3 = factory($this->factory_key)->make([
+            'entity_key' => 'vehicle.car'
+        ]);
     
-        $data = ['1' => 'a2015', '2' => 'BMW', '3' => '120hp'];
+        $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
         $this->actingAs($user)
-        ->post('/api/v1/values/vehicle.car/1', $data)
-        ->seeJson(['created']);
+            ->post('/api/v1/values/vehicle.car/1', $data)
+            ->seeJson(['created']);
     
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => 'a2015']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => 'BMW']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => '120hp']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $key1->id , 'value' => '2015']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $key2->id , 'value' => 'BMW']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $key3->id , 'value' => '120hp']);
     }
 }

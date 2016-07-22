@@ -7,7 +7,11 @@ use App\Entities\MongoDb\ValueMongoDb;
 
 class MongoDbValueTest extends AcceptanceValueTestCase
 {
-
+    public function __construct($name = null, array $data = array(), $dataName = '') {
+        parent::__construct($name, $data, $dataName);
+        $this->factory_key = 'App\Entities\MongoDb\KeyMongoDb';
+    }
+    
     /**
      * Creates the application.
      *

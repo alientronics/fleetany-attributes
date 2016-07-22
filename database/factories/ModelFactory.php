@@ -26,6 +26,22 @@ $factory->define(App\Entities\MySql\KeyMySql::class, function ($faker) {
     ];
 });
 
+$factory->define(App\Entities\MongoDb\KeyMongoDb::class, function ($faker) {
+    return [
+        'entity_key' => 'vehicle',
+        'description' => 'Description',
+        'type' => 'string',
+    ];
+});
+
+$factory->define(App\Entities\DynamoDb\KeyDynamoDb::class, function ($faker) {
+    return [
+        'entity_key' => 'vehicle',
+        'description' => 'Description',
+        'type' => 'string',
+    ];
+});
+
 $factory->define(App\Entities\MySql\ValueMySql::class, function ($faker) {
     return [
         'entity_key' => 'vehicle',
