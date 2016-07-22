@@ -18,6 +18,27 @@ class DynamoDbKeyTest extends AcceptanceKeyTestCase
         $app['config']['database.driver'] = 'dynamodb';
         return $app;
     }
+
+    /**
+     * Assert that a given where condition exists in the database.
+     *
+     * @param  string  $table
+     * @param  array  $data
+     * @param  string|null $onConnection
+     * @return $this
+     */
+    protected function seeInDatabase($table, array $data, $onConnection = null)
+    {
+        $Key = $this->getRegisterInDatabase($data);
+        
+        if (empty($Key)) {
+            return sprintf(
+                'Unable to find row in database table [%s] that matched attributes [%s].', $table, json_encode($data)
+            );
+        } else {
+            return true;
+        }
+    }
     
     /**
      * Assert that a given where condition matches a soft deleted record
@@ -28,6 +49,21 @@ class DynamoDbKeyTest extends AcceptanceKeyTestCase
      * @return $this
      */
     protected function seeIsSoftDeletedInDatabase($table, array $data, $connection = null)
+    {
+        $Key = $this->getRegisterInDatabase($data);
+        
+        if (!empty($Key)) {
+            return sprintf(
+                'Found unexpected records in database table [%s] that matched attributes [%s].',
+                $table,
+                json_encode($data)
+            );
+        } else {
+            return true;
+        }
+    }
+    
+    private function getRegisterInDatabase($data)
     {
         if(!empty($data)) {
             foreach($data as $index => $element) {
@@ -41,14 +77,6 @@ class DynamoDbKeyTest extends AcceptanceKeyTestCase
         $Key = $entity::where($data);
         $Key = $Key->get()->first();
         
-        if (!empty($Key)) {
-            return sprintf(
-                'Found unexpected records in database table [%s] that matched attributes [%s].',
-                $table,
-                json_encode($data)
-            );
-        } else {
-            return true;
-        }
+        return $Key;
     }
 }
