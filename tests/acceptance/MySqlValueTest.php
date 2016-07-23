@@ -9,6 +9,7 @@ class MySqlValueTest extends AcceptanceValueTestCase
     public function setUp() {
         parent::setUp();
         $this->factory_key = 'App\Entities\MySql\KeyMySql';
+        var_dump($this->factory_key);
     }
     
     /**
