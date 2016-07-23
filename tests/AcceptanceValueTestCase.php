@@ -130,8 +130,13 @@ class AcceptanceValueTestCase extends TestCase
         $key1 = factory($this->getFactory())->make([
             'type' => 'numeric'
         ]);
+        $keyId1 = $this->getLastId();
+        
         $key2 = factory($this->getFactory())->make();
+        $keyId2 = $this->getLastId();
+        
         $key3 = factory($this->getFactory())->make();
+        $keyId3 = $this->getLastId();
     
         $data = ['1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
     
@@ -142,9 +147,9 @@ class AcceptanceValueTestCase extends TestCase
     
         $this->seeJson(['created']);
     
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key1->id , 'value' => '2016']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key2->id , 'value' => 'Porsche']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key3->id , 'value' => '160hp']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId1 , 'value' => '2016']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId2 , 'value' => 'Porsche']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId3 , 'value' => '160hp']);
     }
     
     public function testValueWithModelPostSuccess()
@@ -161,6 +166,22 @@ class AcceptanceValueTestCase extends TestCase
         $key3 = factory($this->getFactory())->make([
             'entity_key' => 'vehicle.car'
         ]);
+
+        $key1 = factory($this->getFactory())->make([
+            'entity_key' => 'vehicle.car',
+            'type' => 'numeric'
+        ]);
+        $keyId1 = $this->getLastId();
+        
+        $key2 = factory($this->getFactory())->make([
+            'entity_key' => 'vehicle.car'
+        ]);
+        $keyId2 = $this->getLastId();
+        
+        $key3 = factory($this->getFactory())->make([
+            'entity_key' => 'vehicle.car'
+        ]);
+        $keyId3 = $this->getLastId();
     
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
@@ -168,8 +189,8 @@ class AcceptanceValueTestCase extends TestCase
             ->post('/api/v1/values/vehicle.car/1', $data)
             ->seeJson(['created']);
     
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $key1->id , 'value' => '2015']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $key2->id , 'value' => 'BMW']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $key3->id , 'value' => '120hp']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $keyId1 , 'value' => '2015']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $keyId2 , 'value' => 'BMW']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'attribute_id' => $keyId3 , 'value' => '120hp']);
     }
 }
