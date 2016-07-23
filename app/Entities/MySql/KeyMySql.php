@@ -17,6 +17,6 @@ class KeyMySql extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'company_id', 'entity_key', 'description', 'type', 'options',
+        'company_id', 'entity_key', 'description', 'type', 'options',
     ];
 }

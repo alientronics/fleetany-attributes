@@ -4,6 +4,10 @@ namespace Tests;
 
 use Laravel\Lumen\Testing\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Repositories\HelperRepository;
+use App\Entities\DynamoDb\KeyDynamoDb;
+use App\Entities\MongoDb\KeyMongoDb;
+use App\Entities\MySql\KeyMySql;
 
 class AcceptanceValueTestCase extends TestCase
 {
@@ -31,6 +35,23 @@ class AcceptanceValueTestCase extends TestCase
         
             default :
                 return 'App\Entities\MySql\KeyMySql';
+                break;
+        } 
+    }
+    
+    protected function getLastId()
+    {
+        switch (config('database.driver')) {
+            case 'dynamodb' :
+                return HelperRepository::getDynamoDbLastRecordId(KeyDynamoDb::class);
+                break;
+        
+            case 'mongodb' :
+                return KeyMongoDb::all()->last()['id'];
+                break;
+        
+            default :
+                return KeyMySql::all()->last()['id'];
                 break;
         } 
     }
@@ -82,8 +103,13 @@ class AcceptanceValueTestCase extends TestCase
         $key1 = factory($this->getFactory())->make([
             'type' => 'numeric'
         ]);
+        $keyId1 = $this->getLastId();
+        
         $key2 = factory($this->getFactory())->make();
+        $keyId2 = $this->getLastId();
+        
         $key3 = factory($this->getFactory())->make();
+        $keyId3 = $this->getLastId();
             
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
@@ -91,9 +117,9 @@ class AcceptanceValueTestCase extends TestCase
             ->post('/api/v1/values/vehicle/1', $data)
             ->seeJson(['created']);
     
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key1->id , 'value' => '2015']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key2->id , 'value' => 'BMW']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $key3->id , 'value' => '120hp']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId1 , 'value' => '2015']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId2 , 'value' => 'BMW']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId3 , 'value' => '120hp']);
     }
     
     /* based on https://github.com/kidshenlong/comic-cloud-lumen/blob/master/tests/api/ApiTester.php */

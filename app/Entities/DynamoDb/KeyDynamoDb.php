@@ -11,7 +11,10 @@ class KeyDynamoDb extends Model
     protected $table = 'keys';
     
     protected $fillable = [
-        'id', 'company_id', 'entity_key', 'description', 'type', 'options',
+        'company_id', 'entity_key', 'description', 'type', 'options',
     ];
     
+    protected $guarded = [
+        'id',
+    ];
 }
