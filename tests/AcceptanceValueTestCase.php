@@ -78,11 +78,12 @@ class AcceptanceValueTestCase extends TestCase
     {
 
         $user = factory('App\User')->make();
-        $key1 = factory($this->getFactory())->make([
+        var_dump($this->getFactory());
+        $key1 = factory('App\Entities\MySql\KeyMySql')->make([
             'type' => 'numeric'
         ]);
-        $key2 = factory($this->getFactory())->make();
-        $key3 = factory($this->getFactory())->make();
+        $key2 = factory('App\Entities\MySql\KeyMySql')->make();
+        $key3 = factory('App\Entities\MySql\KeyMySql')->make();
             
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
@@ -100,11 +101,11 @@ class AcceptanceValueTestCase extends TestCase
     {
     
         $user = factory('App\User')->make();
-        $key1 = factory($this->getFactory())->make([
+        $key1 = factory('App\Entities\MySql\KeyMySql')->make([
             'type' => 'numeric'
         ]);
-        $key2 = factory($this->getFactory())->make();
-        $key3 = factory($this->getFactory())->make();
+        $key2 = factory('App\Entities\MySql\KeyMySql')->make();
+        $key3 = factory('App\Entities\MySql\KeyMySql')->make();
     
         $data = ['1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
     
@@ -124,14 +125,14 @@ class AcceptanceValueTestCase extends TestCase
     {
     
         $user = factory('App\User')->make();
-        $key1 = factory($this->getFactory())->make([
+        $key1 = factory('App\Entities\MySql\KeyMySql')->make([
             'entity_key' => 'vehicle.car',
             'type' => 'numeric'
         ]);
-        $key2 = factory($this->getFactory())->make([
+        $key2 = factory('App\Entities\MySql\KeyMySql')->make([
             'entity_key' => 'vehicle.car'
         ]);
-        $key3 = factory($this->getFactory())->make([
+        $key3 = factory('App\Entities\MySql\KeyMySql')->make([
             'entity_key' => 'vehicle.car'
         ]);
     
