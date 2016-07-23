@@ -32,7 +32,7 @@ class DynamoDbValueTest extends AcceptanceValueTestCase
     {
         if(!empty($data)) {
             foreach($data as $index => $element) {
-                if(is_numeric($element)) {
+                if(is_numeric($element) && $index == "value") {
                     $data[$index] = (int) $element;
                 }
             }
