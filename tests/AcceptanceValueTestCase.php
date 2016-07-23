@@ -84,10 +84,7 @@ class AcceptanceValueTestCase extends TestCase
         ]);
         $key2 = factory($this->getFactory())->make();
         $key3 = factory($this->getFactory())->make();
-
-        var_dump($key2->id);
-        var_dump($key2->type);
-        var_dump($key2);
+            
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
         $this->actingAs($user)
@@ -109,8 +106,7 @@ class AcceptanceValueTestCase extends TestCase
         ]);
         $key2 = factory($this->getFactory())->make();
         $key3 = factory($this->getFactory())->make();
-
-        var_dump($key1);
+    
         $data = ['1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
     
         $file = new UploadedFile(storage_path('test/file.txt'), 'file.txt', null, null, null, TRUE);
