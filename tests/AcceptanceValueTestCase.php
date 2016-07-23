@@ -100,26 +100,43 @@ class AcceptanceValueTestCase extends TestCase
 
         $user = factory('App\User')->make();
         
-        $key1 = factory($this->getFactory())->make([
-            'type' => 'numeric'
-        ]);
-        $keyId1 = $this->getLastId();
+        $key = [
+            'company_id'  => 1,
+            'entity_key'  => 'vehicle',
+            'description'  => 'year',
+            'type'  => 'numeric',
+            'options' => ''
+        ];
+
+        $this->actingAs($user)
+            ->post('/api/v1/key', $key)
+            ->seeJson(['created']);
         
-        $key2 = factory($this->getFactory())->make();
-        $keyId2 = $this->getLastId();
+        $keyIdNumeric = $this->getLastId();
         
-        $key3 = factory($this->getFactory())->make();
-        $keyId3 = $this->getLastId();
-            
+        $key = [
+            'company_id'  => 1,
+            'entity_key'  => 'vehicle',
+            'description'  => 'year',
+            'type'  => 'string',
+            'options' => ''
+        ];
+
+        $this->actingAs($user)
+            ->post('/api/v1/key', $key)
+            ->seeJson(['created']);
+        
+        $keyIdString = $this->getLastId();
+        
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
         $this->actingAs($user)
             ->post('/api/v1/values/vehicle/1', $data)
             ->seeJson(['created']);
     
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId1 , 'value' => '2015']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId2 , 'value' => 'BMW']);
-        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyId3 , 'value' => '120hp']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyIdNumeric , 'value' => '2015']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyIdString , 'value' => 'BMW']);
+        $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'attribute_id' => $keyIdString , 'value' => '120hp']);
     }
     
     /* based on https://github.com/kidshenlong/comic-cloud-lumen/blob/master/tests/api/ApiTester.php */
