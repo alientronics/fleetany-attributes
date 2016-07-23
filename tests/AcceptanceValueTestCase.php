@@ -7,8 +7,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AcceptanceValueTestCase extends TestCase
 {
-    protected $factory_key;
-    
     /**
      * Creates the application.
      *
@@ -18,6 +16,23 @@ class AcceptanceValueTestCase extends TestCase
     {
         $app = require __DIR__.'/../bootstrap/app.php';
         return $app;
+    }
+    
+    protected function getFactory()
+    {
+        switch (config('database.driver')) {
+            case 'dynamodb' :
+                return 'App\Entities\DynamoDb\KeyDynamoDb';
+                break;
+        
+            case 'mongodb' :
+                return 'App\Entities\MongoDb\KeyMongoDb';
+                break;
+        
+            default :
+                return 'App\Entities\MySql\KeyMySql';
+                break;
+        } 
     }
     
     public function testPingApi()
@@ -63,11 +78,11 @@ class AcceptanceValueTestCase extends TestCase
     {
 
         $user = factory('App\User')->make();
-        $key1 = factory($this->factory_key)->make([
+        $key1 = factory($this->getFactory())->make([
             'type' => 'numeric'
         ]);
-        $key2 = factory($this->factory_key)->make();
-        $key3 = factory($this->factory_key)->make();
+        $key2 = factory($this->getFactory())->make();
+        $key3 = factory($this->getFactory())->make();
             
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
@@ -85,11 +100,11 @@ class AcceptanceValueTestCase extends TestCase
     {
     
         $user = factory('App\User')->make();
-        $key1 = factory($this->factory_key)->make([
+        $key1 = factory($this->getFactory())->make([
             'type' => 'numeric'
         ]);
-        $key2 = factory($this->factory_key)->make();
-        $key3 = factory($this->factory_key)->make();
+        $key2 = factory($this->getFactory())->make();
+        $key3 = factory($this->getFactory())->make();
     
         $data = ['1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
     
@@ -109,14 +124,14 @@ class AcceptanceValueTestCase extends TestCase
     {
     
         $user = factory('App\User')->make();
-        $key1 = factory($this->factory_key)->make([
+        $key1 = factory($this->getFactory())->make([
             'entity_key' => 'vehicle.car',
             'type' => 'numeric'
         ]);
-        $key2 = factory($this->factory_key)->make([
+        $key2 = factory($this->getFactory())->make([
             'entity_key' => 'vehicle.car'
         ]);
-        $key3 = factory($this->factory_key)->make([
+        $key3 = factory($this->getFactory())->make([
             'entity_key' => 'vehicle.car'
         ]);
     

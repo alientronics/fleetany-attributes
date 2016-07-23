@@ -8,11 +8,6 @@ use App\Entities\DynamoDb\KeyDynamoDb;
 
 class DynamoDbValueTest extends AcceptanceValueTestCase
 {
-
-    public function setUp() {
-        parent::setUp();
-        $this->factory_key = 'App\Entities\DynamoDb\KeyDynamoDb';
-    }
     
     /**
      * Creates the application.
