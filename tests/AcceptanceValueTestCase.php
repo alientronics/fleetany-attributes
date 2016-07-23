@@ -78,13 +78,16 @@ class AcceptanceValueTestCase extends TestCase
     {
 
         $user = factory('App\User')->make();
-        var_dump($this->getFactory());
-        $key1 = factory('App\Entities\MySql\KeyMySql')->make([
+        
+        $key1 = factory($this->getFactory())->make([
             'type' => 'numeric'
         ]);
-        $key2 = factory('App\Entities\MySql\KeyMySql')->make();
-        $key3 = factory('App\Entities\MySql\KeyMySql')->make();
-            
+        $key2 = factory($this->getFactory())->make();
+        $key3 = factory($this->getFactory())->make();
+
+        var_dump($key2->id);
+        var_dump($key2->type);
+        var_dump($key2);
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
         $this->actingAs($user)
@@ -101,12 +104,13 @@ class AcceptanceValueTestCase extends TestCase
     {
     
         $user = factory('App\User')->make();
-        $key1 = factory('App\Entities\MySql\KeyMySql')->make([
+        $key1 = factory($this->getFactory())->make([
             'type' => 'numeric'
         ]);
-        $key2 = factory('App\Entities\MySql\KeyMySql')->make();
-        $key3 = factory('App\Entities\MySql\KeyMySql')->make();
-    
+        $key2 = factory($this->getFactory())->make();
+        $key3 = factory($this->getFactory())->make();
+
+        var_dump($key1);
         $data = ['1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
     
         $file = new UploadedFile(storage_path('test/file.txt'), 'file.txt', null, null, null, TRUE);
@@ -125,14 +129,14 @@ class AcceptanceValueTestCase extends TestCase
     {
     
         $user = factory('App\User')->make();
-        $key1 = factory('App\Entities\MySql\KeyMySql')->make([
+        $key1 = factory($this->getFactory())->make([
             'entity_key' => 'vehicle.car',
             'type' => 'numeric'
         ]);
-        $key2 = factory('App\Entities\MySql\KeyMySql')->make([
+        $key2 = factory($this->getFactory())->make([
             'entity_key' => 'vehicle.car'
         ]);
-        $key3 = factory('App\Entities\MySql\KeyMySql')->make([
+        $key3 = factory($this->getFactory())->make([
             'entity_key' => 'vehicle.car'
         ]);
     
