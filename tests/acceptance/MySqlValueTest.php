@@ -6,7 +6,7 @@ use Tests\AcceptanceValueTestCase;
 
 class MySqlValueTest extends AcceptanceValueTestCase
 {
-    
+
     /**
      * Creates the application.
      *

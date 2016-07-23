@@ -7,7 +7,7 @@ use App\Entities\MongoDb\ValueMongoDb;
 
 class MongoDbValueTest extends AcceptanceValueTestCase
 {
-    
+
     /**
      * Creates the application.
      *

@@ -4,11 +4,10 @@ namespace Tests\DynamoDb;
 
 use Tests\AcceptanceValueTestCase;
 use App\Entities\DynamoDb\ValueDynamoDb;
-use App\Entities\DynamoDb\KeyDynamoDb;
 
 class DynamoDbValueTest extends AcceptanceValueTestCase
 {
-    
+
     /**
      * Creates the application.
      *
@@ -32,14 +31,8 @@ class DynamoDbValueTest extends AcceptanceValueTestCase
     protected function seeInDatabase($table, array $data, $onConnection = null)
     {
         if(!empty($data)) {
-            $key = KeyDynamoDb::where([
-                "entity_key" => $data['entity_key'],
-                "id" => $data['attribute_id']
-            ])->get()->first();
-            
             foreach($data as $index => $element) {
-                if((is_numeric($element) && $index != "value") || 
-                        ($key->type == "numeric" && $index == "value")) {
+                if(is_numeric($element)) {
                     $data[$index] = (int) $element;
                 }
             }
