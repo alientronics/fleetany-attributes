@@ -24,18 +24,18 @@ class AcceptanceKeyTestCase extends TestCase
     protected function getEntity()
     {
         switch (config('database.driver')) {
-            case 'dynamodb' :
+            case 'dynamodb':
                 return KeyDynamoDb::class;
                 break;
         
-            case 'mongodb' :
+            case 'mongodb':
                 return KeyMongoDb::class;
                 break;
         
-            default :
+            default:
                 return KeyMySql::class;
                 break;
-        } 
+        }
     }
     
     public function testPingApi()
@@ -43,7 +43,8 @@ class AcceptanceKeyTestCase extends TestCase
         $this->get('/');
 
         $this->assertEquals(
-            $this->response->getContent(), $this->app->version()
+            $this->response->getContent(),
+            $this->app->version()
         );
     }
 

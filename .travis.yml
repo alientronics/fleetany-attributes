@@ -41,7 +41,7 @@ before_script:
 script:
   - phpunit --stderr --configuration phpunit.xml --debug --coverage-clover build/logs/clover.xml
   - ./vendor/bin/test-reporter
-  - vendor/bin/phpcs --standard=psr2 app/
+  - vendor/bin/phpcs --standard=psr2 app/ tests/
   - vendor/bin/phpcpd --verbose app/
   - vendor/bin/phpmd app/ text codesize,unusedcode,naming,design
   - vendor/bin/phploc app/

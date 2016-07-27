@@ -35,7 +35,9 @@ class MongoDbValueTest extends AcceptanceValueTestCase
         
         if (empty($Value)) {
             return sprintf(
-                'Unable to find row in database table [%s] that matched attributes [%s].', $table, json_encode($data)
+                'Unable to find row in database table [%s] that matched attributes [%s].',
+                $table,
+                json_encode($data)
             );
         } else {
             return true;

@@ -23,8 +23,9 @@ class AcceptanceValueTestCase extends TestCase
         $this->get('/');
     
         $this->assertEquals(
-            $this->response->getContent(), $this->app->version()
-            );
+            $this->response->getContent(),
+            $this->app->version()
+        );
     }
     
     public function testValueGetFail()
@@ -81,7 +82,7 @@ class AcceptanceValueTestCase extends TestCase
     
         $data = ['1' => '2016', '2' => 'Porsche', '3' => '160hp', '4' => 'file.txt'];
     
-        $file = new UploadedFile(storage_path('test/file.txt'), 'file.txt', null, null, null, TRUE);
+        $file = new UploadedFile(storage_path('test/file.txt'), 'file.txt', null, null, null, true);
     
         $this->actingAs($user)
         ->call('POST', '/api/v1/values/vehicle/2', $data, [], ['file' => $file]);

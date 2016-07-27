@@ -33,7 +33,9 @@ class DynamoDbKeyTest extends AcceptanceKeyTestCase
         
         if (empty($Key)) {
             return sprintf(
-                'Unable to find row in database table [%s] that matched attributes [%s].', $table, json_encode($data)
+                'Unable to find row in database table [%s] that matched attributes [%s].',
+                $table,
+                json_encode($data)
             );
         } else {
             return true;
@@ -65,9 +67,9 @@ class DynamoDbKeyTest extends AcceptanceKeyTestCase
     
     private function getRegisterInDatabase($data)
     {
-        if(!empty($data)) {
-            foreach($data as $index => $element) {
-                if(is_numeric($element)) {
+        if (!empty($data)) {
+            foreach ($data as $index => $element) {
+                if (is_numeric($element)) {
                     $data[$index] = (int) $element;
                 }
             }

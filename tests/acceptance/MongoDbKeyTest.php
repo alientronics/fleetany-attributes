@@ -35,7 +35,9 @@ class MongoDbKeyTest extends AcceptanceKeyTestCase
         
         if (empty($Key)) {
             return sprintf(
-                'Unable to find row in database table [%s] that matched attributes [%s].', $table, json_encode($data)
+                'Unable to find row in database table [%s] that matched attributes [%s].',
+                $table,
+                json_encode($data)
             );
         } else {
             return true;
@@ -60,7 +62,7 @@ class MongoDbKeyTest extends AcceptanceKeyTestCase
             'Found unexpected records in database table [%s] that matched attributes [%s].',
             $table,
             json_encode($data)
-            ));
+        ));
     
         return $this;
     }
