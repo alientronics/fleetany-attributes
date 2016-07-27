@@ -2,9 +2,9 @@
 
 return [
 
-    'driver' => 'dynamodb',
+    'driver' => env('DB_DRIVER', 'dynamo'),
     
-    'default' => 'mysql',
+    'default' => env('DB_DRIVER', 'mysql'),
 
     'connections' => [
 

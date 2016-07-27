@@ -31,8 +31,6 @@ class KeyRepository
     
         $Keys = $Keys->get();
     
-        Storage::put('file.txt', 'Contents');
-    
         return response()->json($Keys);
     }
     
