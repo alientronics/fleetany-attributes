@@ -119,10 +119,10 @@ class AcceptanceValueTestCase extends TestCase
         $data = ['dGVzdGUudHh023'];
     
         $this->actingAs($user)
-            ->post('/api/v1/values/download', $data)
-            ->see(null);
-        
+            ->post('/api/v1/values/download', $data);
+
         $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals($this->response->content(), null);
     }
     
     public function testValueDownloadFileEmpty()
@@ -133,10 +133,10 @@ class AcceptanceValueTestCase extends TestCase
         $data = [];
     
         $this->actingAs($user)
-            ->post('/api/v1/values/download', $data)
-            ->see(null);
+            ->post('/api/v1/values/download', $data);
 
         $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals($this->response->content(), null);
     }
     
     public function testValueDownloadFileSuccess()
