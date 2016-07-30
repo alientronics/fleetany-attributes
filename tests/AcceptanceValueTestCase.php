@@ -4,6 +4,7 @@ namespace Tests;
 
 use Laravel\Lumen\Testing\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class AcceptanceValueTestCase extends TestCase
 {
@@ -110,16 +111,49 @@ class AcceptanceValueTestCase extends TestCase
         $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => '120hp']);
     }
     
-    public function testValueDownloadFileSuccess()
+    public function testValueDownloadFileNotFound()
     {
     
         $user = factory('App\User')->make();
     
+        $data = ['dGVzdGUudHh023'];
+    
+        $this->actingAs($user)
+            ->post('/api/v1/values/download', $data);
+        
+        $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals((string)$this->response->getBody(), 'null');
+    }
+    
+    public function testValueDownloadFileEmpty()
+    {
+    
+        $user = factory('App\User')->make();
+    
+        $data = [];
+    
+        $this->actingAs($user)
+            ->post('/api/v1/values/download', $data);
+
+        $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals((string)$this->response->getBody(), 'null');
+    }
+    
+    public function testValueDownloadFileSuccess()
+    {
+    
+        $user = factory('App\User')->make();
+        
+        Storage::disk('local')->put('teste.txt', 'Contents');
+        
         $data = ['dGVzdGUudHh0'];
     
         $this->actingAs($user)
             ->post('/api/v1/values/download', $data);
         
         $this->assertEquals($this->response->status(), 200);
+        $this->assertNotEquals((string)$this->response->getBody(), 'null');
+        
+        Storage::disk('local')->delete('teste.txt');
     }
 }
