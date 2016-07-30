@@ -4,6 +4,7 @@ namespace App\Repositories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\json_encode;
+use Illuminate\Http\Response;
 
 class HelperRepository
 {
@@ -54,7 +55,6 @@ class HelperRepository
         }
 
         $fileName = urldecode(base64_decode($data['file']));
-
 
         if (Storage::has($fileName)) {
             $contents = Storage::get($fileName);

@@ -119,7 +119,7 @@ class AcceptanceValueTestCase extends TestCase
         $data = ['dGVzdGUudHh023'];
     
         $this->actingAs($user)
-            ->post('/api/v1/values/download', $data);
+            ->get('/api/v1/values/download', $data);
 
         $this->assertEquals($this->response->status(), 200);
         $this->assertEquals($this->response->content(), null);
@@ -130,10 +130,8 @@ class AcceptanceValueTestCase extends TestCase
     
         $user = factory('App\User')->make();
     
-        $data = [];
-    
         $this->actingAs($user)
-            ->post('/api/v1/values/download', $data);
+            ->get('/api/v1/values/download');
 
         $this->assertEquals($this->response->status(), 200);
         $this->assertEquals($this->response->content(), null);
@@ -145,14 +143,12 @@ class AcceptanceValueTestCase extends TestCase
         $user = factory('App\User')->make();
         
         Storage::disk('local')->put('teste.txt', 'Contents');
-        
-        $data = ['dGVzdGUudHh0'];
     
         $this->actingAs($user)
-            ->post('/api/v1/values/download', $data)
-            ->seeJson();
+            ->get('/api/v1/values/download?file='.'dGVzdGUudHh0');
         
         $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals($this->response->content(), 'Contents');
         
         Storage::disk('local')->delete('teste.txt');
     }
