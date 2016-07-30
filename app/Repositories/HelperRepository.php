@@ -48,21 +48,20 @@ class HelperRepository
     public static function download(Request $request)
     {
         $data = $request->all();
-        
-        if (empty($data[0])) {
+
+        if (empty($data['file'])) {
             return null;
         }
-        
-        $fileName = urldecode(base64_decode($data[0]));
+
+        $fileName = urldecode(base64_decode($data['file']));
+
 
         if (Storage::has($fileName)) {
-            $fileReturn = [];
-            $fileReturn['file'] = Storage::get($fileName);
-            $fileReturn['mimetype'] = Storage::mimeType($fileName);
-            $fileReturn['name'] = $fileName;
-            return json_encode($fileReturn);
+            $contents = Storage::get($fileName);
+            $mimeType = Storage::mimeType($fileName);
+            return (new Response($contents, 200))->header('Content-Type', $mimeType);
         } else {
-            return null;
+            return (new Response("",200));
         }
     }
 }
