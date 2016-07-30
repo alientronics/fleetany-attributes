@@ -119,10 +119,10 @@ class AcceptanceValueTestCase extends TestCase
         $data = ['dGVzdGUudHh023'];
     
         $this->actingAs($user)
-            ->post('/api/v1/values/download', $data);
+            ->post('/api/v1/values/download', $data)
+            ->see(null);
         
         $this->assertEquals($this->response->status(), 200);
-        $this->assertEquals((string)$this->response->getBody(), 'null');
     }
     
     public function testValueDownloadFileEmpty()
@@ -133,10 +133,10 @@ class AcceptanceValueTestCase extends TestCase
         $data = [];
     
         $this->actingAs($user)
-            ->post('/api/v1/values/download', $data);
+            ->post('/api/v1/values/download', $data)
+            ->see(null);
 
         $this->assertEquals($this->response->status(), 200);
-        $this->assertEquals((string)$this->response->getBody(), 'null');
     }
     
     public function testValueDownloadFileSuccess()
@@ -149,10 +149,10 @@ class AcceptanceValueTestCase extends TestCase
         $data = ['dGVzdGUudHh0'];
     
         $this->actingAs($user)
-            ->post('/api/v1/values/download', $data);
+            ->post('/api/v1/values/download', $data)
+            ->seeJson();
         
         $this->assertEquals($this->response->status(), 200);
-        $this->assertNotEquals((string)$this->response->getBody(), 'null');
         
         Storage::disk('local')->delete('teste.txt');
     }
