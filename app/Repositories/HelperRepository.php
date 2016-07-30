@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use GuzzleHttp\json_encode;
 
 class HelperRepository
 {
@@ -42,5 +43,26 @@ class HelperRepository
         }
         
         return $idLastRecord;
+    }
+    
+    public static function download(Request $request)
+    {
+        $data = $request->all();
+        
+        if (empty($data[0])) {
+            return null;
+        }
+        
+        $fileName = urldecode(base64_decode($data[0]));
+
+        if (Storage::has($fileName)) {
+            $fileReturn = [];
+            $fileReturn['file'] = Storage::get($fileName);
+            $fileReturn['mimetype'] = Storage::mimeType($fileName);
+            $fileReturn['name'] = $fileName;
+            return json_encode($fileReturn);
+        } else {
+            return null;
+        }
     }
 }

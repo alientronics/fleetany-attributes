@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\MongoDb\ValueControllerMongoDb;
 use App\Http\Controllers\MySql\ValueControllerMySql;
 use App\Http\Controllers\DynamoDb\ValueControllerDynamoDb;
+use App\Repositories\HelperRepository;
 
 class ValueController extends Controller
 {
@@ -40,5 +41,10 @@ class ValueController extends Controller
     public function set(Request $request, $entity_key, $entity_id)
     {
         return $this->controller->set($request, $entity_key, $entity_id);
+    }
+  
+    public function download(Request $request)
+    {
+        return HelperRepository::download($request);
     }
 }
