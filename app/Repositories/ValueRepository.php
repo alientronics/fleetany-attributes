@@ -36,7 +36,11 @@ class ValueRepository
             foreach ($request->all() as $key => $value) {
                 if ($request->hasFile($key)) {
                     $files[] = $key;
-                } elseif ($key != 'api_token') {
+                    $file = $request->file($key);
+                    $value = $file->getClientOriginalName();
+                }
+                
+                if ($key != 'api_token') {
                     $fields['entity_key'] = $entity_key;
                     $fields['entity_id'] = $entity_id;
                     $fields['attribute_id'] = $key;
