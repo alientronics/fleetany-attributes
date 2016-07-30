@@ -61,7 +61,7 @@ class HelperRepository
             $mimeType = Storage::mimeType($fileName);
             return (new Response($contents, 200))->header('Content-Type', $mimeType);
         } else {
-            return (new Response("",200));
+            return (new Response("", 200));
         }
     }
 }
