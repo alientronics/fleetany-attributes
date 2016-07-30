@@ -109,4 +109,17 @@ class AcceptanceValueTestCase extends TestCase
         $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => 'BMW']);
         $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => '120hp']);
     }
+    
+    public function testValueDownloadFileSuccess()
+    {
+    
+        $user = factory('App\User')->make();
+    
+        $data = ['dGVzdGUudHh0'];
+    
+        $this->actingAs($user)
+            ->post('/api/v1/values/download', $data);
+        
+        $this->assertEquals($this->response->status(), 200);
+    }
 }
