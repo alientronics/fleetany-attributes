@@ -86,7 +86,7 @@ class AcceptanceValueTestCase extends TestCase
         $file = new UploadedFile(storage_path('test/file.txt'), 'file.txt', null, null, null, true);
     
         $this->actingAs($user)
-        ->call('POST', '/api/v1/values/vehicle/2', $data, [], ['file' => $file]);
+        ->call('POST', '/api/v1/values/vehicle/2', $data, [], ['4' => $file]);
     
         $this->seeJson(['created']);
     
