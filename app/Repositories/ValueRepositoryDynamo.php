@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use Illuminate\Http\Request;
+use App\Entities\DynamoDb\KeyDynamoDb;
 
 class ValueRepositoryDynamo extends ValueRepository
 {
@@ -75,5 +76,24 @@ class ValueRepositoryDynamo extends ValueRepository
         HelperRepository::saveFiles($request, $files);
     
         return response()->json('created');
+    }
+    
+    public function validateFileCompanyId($fileName, $companyId)
+    {
+        $entity = $this->entity;
+
+        $value = $entity::where(['value' => $fileName])
+            ->get()->first();
+        
+        $results = [];
+        if(!empty($value->attribute_id)) {
+            $results = KeyDynamoDb::where(['type' => 'file',
+                    'company_id' => $companyId,
+                    'id' => $value->attribute_id
+                ])
+                ->get();
+        }
+        
+        return $results;
     }
 }

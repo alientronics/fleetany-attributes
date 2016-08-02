@@ -122,7 +122,7 @@ class AcceptanceValueTestCase extends TestCase
             ->get('/api/v1/values/download', $data);
 
         $this->assertEquals($this->response->status(), 401);
-        $this->assertEquals($this->response->content(), null);
+        $this->assertEquals($this->response->content(), 'Unauthorized.');
     }
     
     public function testValueDownloadFileEmpty()
@@ -134,7 +134,7 @@ class AcceptanceValueTestCase extends TestCase
             ->get('/api/v1/values/download?company_id=1');
 
         $this->assertEquals($this->response->status(), 401);
-        $this->assertEquals($this->response->content(), null);
+        $this->assertEquals($this->response->content(), 'Unauthorized.');
     }
     
     public function testValueDownloadFileSuccess()
@@ -164,7 +164,7 @@ class AcceptanceValueTestCase extends TestCase
             ->get('/api/v1/values/download?file='.'ZmlsZS50eHQ%3D&company_id=2');
         
         $this->assertEquals($this->response->status(), 401);
-        $this->assertEquals($this->response->content(), 'Contents');
+        $this->assertEquals($this->response->content(), 'Unauthorized.');
         
         Storage::disk('local')->delete('file.txt');
     }

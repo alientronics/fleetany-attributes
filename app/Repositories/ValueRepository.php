@@ -67,18 +67,13 @@ class ValueRepository
     {
         $data = $request->all();
         if (empty($data['file']) || empty($data['company_id'])) {
-            return null;
+            return false;
         }
 
         $fileName = urldecode(base64_decode($data['file']));
         $entity = $this->entity;
         
-        $results = $entity::join('keys', 'values.attribute_id', '=', 'keys.id')
-            ->where(['values.value' => $fileName,
-                'keys.type' => 'file',
-                'keys.company_id' => $data['company_id']
-            ])
-            ->get();
+        $results = $this->validateFileCompanyId($fileName, $data['company_id']);
         
         if (!empty($results->toArray())) {
             return true;

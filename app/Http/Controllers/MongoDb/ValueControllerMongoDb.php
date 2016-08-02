@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Entities\MongoDb\ValueMongoDb;
 use App\Repositories\ValueRepository;
+use App\Repositories\ValueRepositoryMongoDb;
 
 class ValueControllerMongoDb extends Controller
 {
@@ -20,7 +21,7 @@ class ValueControllerMongoDb extends Controller
      */
     public function __construct()
     {
-        $this->valueRepository = new ValueRepository(ValueMongoDb::class);
+        $this->valueRepository = new ValueRepositoryMongoDb(ValueMongoDb::class);
     }
     
     public function get($entity_key, $entity_id)

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Entities\MySql\ValueMySql;
 use App\Repositories\ValueRepository;
+use App\Repositories\ValueRepositoryMySql;
 
 class ValueControllerMySql extends Controller
 {
@@ -20,7 +21,7 @@ class ValueControllerMySql extends Controller
      */
     public function __construct()
     {
-        $this->valueRepository = new ValueRepository(ValueMySql::class);
+        $this->valueRepository = new ValueRepositoryMySql(ValueMySql::class);
     }
     
     public function get($entity_key, $entity_id)
