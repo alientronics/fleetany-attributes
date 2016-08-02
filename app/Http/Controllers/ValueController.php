@@ -45,6 +45,9 @@ class ValueController extends Controller
   
     public function download(Request $request)
     {
+        if (!$this->controller->validateFileAccessPermission($request)) {
+            return response('Unauthorized.', 401);
+        }
         return HelperRepository::download($request);
     }
 }

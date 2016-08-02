@@ -32,4 +32,9 @@ class ValueControllerMySql extends Controller
     {
         return $this->valueRepository->set($request, $entity_key, $entity_id);
     }
+    
+    public function validateFileAccessPermission(Request $request)
+    {
+        return $this->valueRepository->validateFileAccessPermission($request);
+    }
 }

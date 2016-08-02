@@ -62,4 +62,24 @@ class ValueRepository
     
         return response()->json('created');
     }
+    
+    public function validateFileAccessPermission(Request $request)
+    {
+        $data = $request->all();
+        $fileName = urldecode(base64_decode($data['file']));
+        $entity = $this->entity;
+        
+        $results = $entity::join('keys', 'values.attribute_id', '=', 'keys.id')
+            ->where(['values.value' => $fileName,
+                'keys.type' => 'file',
+                'keys.company_id' => $data['company_id']
+            ])
+            ->get();
+        
+        if (!empty($results->toArray())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
