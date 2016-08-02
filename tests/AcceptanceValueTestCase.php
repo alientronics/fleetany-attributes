@@ -116,12 +116,12 @@ class AcceptanceValueTestCase extends TestCase
     
         $user = factory('App\User')->make();
     
-        $data = ['dGVzdGUudHh023'];
+        $data = ['ZmlsZS50eHQ%3D23'];
     
         $this->actingAs($user)
             ->get('/api/v1/values/download', $data);
 
-        $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals($this->response->status(), 401);
         $this->assertEquals($this->response->content(), null);
     }
     
@@ -133,7 +133,7 @@ class AcceptanceValueTestCase extends TestCase
         $this->actingAs($user)
             ->get('/api/v1/values/download?company_id=1');
 
-        $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals($this->response->status(), 401);
         $this->assertEquals($this->response->content(), null);
     }
     
@@ -142,15 +142,15 @@ class AcceptanceValueTestCase extends TestCase
     
         $user = factory('App\User')->make();
         
-        Storage::disk('local')->put('teste.txt', 'Contents');
+        Storage::disk('local')->put('file.txt', 'Contents');
     
         $this->actingAs($user)
-            ->get('/api/v1/values/download?file='.'dGVzdGUudHh0&company_id=1');
+            ->get('/api/v1/values/download?file='.'ZmlsZS50eHQ%3D&company_id=1');
         
         $this->assertEquals($this->response->status(), 200);
         $this->assertEquals($this->response->content(), 'Contents');
         
-        Storage::disk('local')->delete('teste.txt');
+        Storage::disk('local')->delete('file.txt');
     }
     
     public function testValueDownloadFileAccessDenied()
@@ -158,14 +158,14 @@ class AcceptanceValueTestCase extends TestCase
     
         $user = factory('App\User')->make();
         
-        Storage::disk('local')->put('teste.txt', 'Contents');
+        Storage::disk('local')->put('file.txt', 'Contents');
     
         $this->actingAs($user)
-            ->get('/api/v1/values/download?file='.'dGVzdGUudHh0&company_id=2');
+            ->get('/api/v1/values/download?file='.'ZmlsZS50eHQ%3D&company_id=2');
         
-        $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals($this->response->status(), 401);
         $this->assertEquals($this->response->content(), 'Contents');
         
-        Storage::disk('local')->delete('teste.txt');
+        Storage::disk('local')->delete('file.txt');
     }
 }

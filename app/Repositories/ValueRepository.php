@@ -66,6 +66,10 @@ class ValueRepository
     public function validateFileAccessPermission(Request $request)
     {
         $data = $request->all();
+        if (empty($data['file']) || empty($data['company_id'])) {
+            return null;
+        }
+
         $fileName = urldecode(base64_decode($data['file']));
         $entity = $this->entity;
         
