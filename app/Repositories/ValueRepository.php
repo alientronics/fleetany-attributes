@@ -75,7 +75,7 @@ class ValueRepository
         
         $results = $this->validateFileCompanyId($fileName, $data['company_id']);
         
-        if (!empty($results->toArray())) {
+        if (count($results)) {
             return true;
         } else {
             return false;
