@@ -15,6 +15,7 @@ $factory->define(App\User::class, function ($faker) {
     return [
         'name' => $faker->name,
         'api_token' => $faker->name,
+        'company_id' => 1,
     ];
 });
 

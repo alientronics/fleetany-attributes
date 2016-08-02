@@ -131,7 +131,7 @@ class AcceptanceValueTestCase extends TestCase
         $user = factory('App\User')->make();
     
         $this->actingAs($user)
-            ->get('/api/v1/values/download');
+            ->get('/api/v1/values/download?company_id=1');
 
         $this->assertEquals($this->response->status(), 200);
         $this->assertEquals($this->response->content(), null);
@@ -145,7 +145,23 @@ class AcceptanceValueTestCase extends TestCase
         Storage::disk('local')->put('teste.txt', 'Contents');
     
         $this->actingAs($user)
-            ->get('/api/v1/values/download?file='.'dGVzdGUudHh0');
+            ->get('/api/v1/values/download?file='.'dGVzdGUudHh0&company_id=1');
+        
+        $this->assertEquals($this->response->status(), 200);
+        $this->assertEquals($this->response->content(), 'Contents');
+        
+        Storage::disk('local')->delete('teste.txt');
+    }
+    
+    public function testValueDownloadFileAccessDenied()
+    {
+    
+        $user = factory('App\User')->make();
+        
+        Storage::disk('local')->put('teste.txt', 'Contents');
+    
+        $this->actingAs($user)
+            ->get('/api/v1/values/download?file='.'dGVzdGUudHh0&company_id=2');
         
         $this->assertEquals($this->response->status(), 200);
         $this->assertEquals($this->response->content(), 'Contents');
