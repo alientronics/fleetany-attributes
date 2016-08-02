@@ -71,7 +71,6 @@ class ValueRepository
         }
 
         $fileName = urldecode(base64_decode($data['file']));
-        $entity = $this->entity;
         
         $results = $this->validateFileCompanyId($fileName, $data['company_id']);
         

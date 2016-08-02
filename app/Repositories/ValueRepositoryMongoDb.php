@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Entities\MongoDb\KeyMongoDb;
+
 class ValueRepositoryMongoDb extends ValueRepository
 {
 
@@ -14,9 +15,10 @@ class ValueRepositoryMongoDb extends ValueRepository
             ->get()->first();
         
         $results = [];
-        if (!empty($value->attribute_id)) {var_dump($value->attribute_id);var_dump($companyId);
+        if (!empty($value->attribute_id)) {
             $results = KeyMongoDb::where(['type' => 'file',
-                    'company_id' => (int)$companyId,
+                    'company_id' => $companyId,
+                    'id' => $value->attribute_id
                 ])
                 ->get();
         }

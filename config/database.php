@@ -2,7 +2,7 @@
 
 return [
 
-    'driver' => env('DB_DRIVER', 'dynamo'),
+    'driver' => env('DB_DRIVER', 'dynamodb'),
     
     'default' => env('DB_DRIVER', 'mysql'),
 

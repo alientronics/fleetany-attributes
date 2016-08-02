@@ -84,7 +84,7 @@ class ValueRepositoryDynamo extends ValueRepository
 
         $value = $entity::where(['value' => (string)$fileName])
             ->get()->first();
-            var_dump($value);
+
         $results = [];
         if (!empty($value->attribute_id)) {
             $results = KeyDynamoDb::where(['type' => 'file',
