@@ -14,7 +14,7 @@ class ValueRepositoryMongoDb extends ValueRepository
             ->get()->first();
         
         $results = [];
-        if(!empty($value->attribute_id)) {
+        if (!empty($value->attribute_id)) {var_dump("chegou");
             $results = KeyMongoDb::where(['type' => 'file',
                     'company_id' => $companyId,
                     'id' => $value->attribute_id
