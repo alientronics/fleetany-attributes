@@ -67,7 +67,7 @@ class AcceptanceValueTestCase extends TestCase
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
         $this->actingAs($user)
-        ->post('/api/v1/values/vehicle/1', $data)
+        ->post('/api/v1/values/vehicle/1/1', $data)
         ->seeJson(['created']);
     
         $this->seeInDatabase('values', ['entity_key' => 'vehicle' , 'value' => '2015']);
@@ -86,7 +86,7 @@ class AcceptanceValueTestCase extends TestCase
         $file = new UploadedFile(storage_path('test/file.txt'), 'file.txt', null, null, null, true);
     
         $this->actingAs($user)
-        ->call('POST', '/api/v1/values/vehicle/2', $data, [], ['4' => $file]);
+        ->call('POST', '/api/v1/values/vehicle/2/1', $data, [], ['4' => $file]);
     
         $this->seeJson(['created']);
     
@@ -103,7 +103,7 @@ class AcceptanceValueTestCase extends TestCase
         $data = ['1' => '2015', '2' => 'BMW', '3' => '120hp'];
     
         $this->actingAs($user)
-        ->post('/api/v1/values/vehicle.car/1', $data)
+        ->post('/api/v1/values/vehicle.car/1/1', $data)
         ->seeJson(['created']);
     
         $this->seeInDatabase('values', ['entity_key' => 'vehicle.car' , 'value' => '2015']);
