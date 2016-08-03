@@ -38,9 +38,9 @@ class ValueController extends Controller
         return $this->controller->get($entity_key, $entity_id);
     }
   
-    public function set(Request $request, $entity_key, $entity_id)
+    public function set(Request $request, $entity_key, $entity_id, $company_id)
     {
-        return $this->controller->set($request, $entity_key, $entity_id);
+        return $this->controller->set($request, $entity_key, $entity_id, $company_id);
     }
   
     public function download(Request $request)

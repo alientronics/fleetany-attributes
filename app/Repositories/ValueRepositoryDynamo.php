@@ -53,7 +53,7 @@ class ValueRepositoryDynamo extends ValueRepository
                     $fields['entity_id'] = (int) $entity_id;
                     $fields['attribute_id'] = (int) $key;
                     $fields['value'] = $value;
-                    $fields['company_id'] = $company_id;
+                    $fields['company_id'] = (int) $company_id;
 
                     $record = $entity::where('entity_key', $entity_key)
                         ->where('entity_id', $entity_id)

@@ -29,9 +29,9 @@ class ValueControllerMySql extends Controller
         return $this->valueRepository->get($entity_key, $entity_id);
     }
     
-    public function set(Request $request, $entity_key, $entity_id)
+    public function set(Request $request, $entity_key, $entity_id, $company_id)
     {
-        return $this->valueRepository->set($request, $entity_key, $entity_id);
+        return $this->valueRepository->set($request, $entity_key, $entity_id, $company_id);
     }
     
     public function validateFileAccessPermission(Request $request)
