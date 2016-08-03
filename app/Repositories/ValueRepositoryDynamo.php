@@ -48,7 +48,11 @@ class ValueRepositoryDynamo extends ValueRepository
             foreach ($request->all() as $key => $value) {
                 if ($request->hasFile($key)) {
                     $files[] = $key;
-                } elseif ($key != 'api_token') {
+                    $file = $request->file($key);
+                    $value = $file->getClientOriginalName();
+                }
+
+                if ($key != 'api_token') {
                     $fields['entity_key'] = $entity_key;
                     $fields['entity_id'] = (int) $entity_id;
                     $fields['attribute_id'] = (int) $key;
@@ -83,7 +87,8 @@ class ValueRepositoryDynamo extends ValueRepository
     {
         $entity = $this->entity;
 
-        $results = $entity::where(['value' => (string)$fileName,
+        $results = $entity::where([
+                'value' => (string)$fileName,
                 'company_id' => (int)$companyId,
             ])
             ->get();

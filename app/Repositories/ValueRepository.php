@@ -46,7 +46,7 @@ class ValueRepository
                     $fields['attribute_id'] = $key;
                     $fields['value'] = $value;
                     
-                    if(config('database.driver') == 'mongodb') {
+                    if (config('database.driver') == 'mongodb') {
                         $fields['company_id'] = $company_id;
                     }
                     

@@ -17,6 +17,6 @@ class ValueMongoDb extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'entity_key', 'entity_id', 'attribute_id', 'value',
+        'entity_key', 'entity_id', 'attribute_id', 'value', 'company_id'
     ];
 }

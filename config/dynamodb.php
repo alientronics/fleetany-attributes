@@ -166,6 +166,10 @@ return [
                 'AttributeName' => 'value',
                 'AttributeType'       => 'S',
             ],
+            [
+                'AttributeName' => 'company_id',
+                'AttributeType'       => 'N',
+            ],
         ],
         'KeySchema'             => [
             [
@@ -260,6 +264,26 @@ return [
                     'NonKeyAttributes' => [
                         'value',
                     ],
+                ],
+                'ProvisionedThroughput' => [
+                    'ReadCapacityUnits' => 1,
+                    'WriteCapacityUnits' => 1,
+                ],
+            ],
+            [
+                'IndexName' => 'index_name_5',
+                'KeySchema' => [
+                    [
+                        'AttributeName' => 'id',
+                        'KeyType' => 'HASH',
+                    ],
+                    [
+                        'AttributeName' => 'company_id',
+                        'KeyType' => 'RANGE',
+                    ],
+                ],
+                'Projection' => [
+                    'ProjectionType' => 'KEYS_ONLY',
                 ],
                 'ProvisionedThroughput' => [
                     'ReadCapacityUnits' => 1,

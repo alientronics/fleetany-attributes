@@ -11,7 +11,7 @@ class ValueDynamoDb extends Model
     protected $table = 'values';
     
     protected $fillable = [
-        'entity_key', 'entity_id', 'attribute_id', 'value',
+        'entity_key', 'entity_id', 'attribute_id', 'value', 'company_id'
     ];
     
     protected $guarded = [
