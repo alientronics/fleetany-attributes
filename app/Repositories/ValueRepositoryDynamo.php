@@ -39,7 +39,7 @@ class ValueRepositoryDynamo extends ValueRepository
         return $Values;
     }
     
-    public function set(Request $request, $entity_key, $entity_id)
+    public function set(Request $request, $entity_key, $entity_id, $company_id)
     {
         $entity = $this->entity;
         
@@ -53,6 +53,7 @@ class ValueRepositoryDynamo extends ValueRepository
                     $fields['entity_id'] = (int) $entity_id;
                     $fields['attribute_id'] = (int) $key;
                     $fields['value'] = $value;
+                    $fields['company_id'] = $company_id;
 
                     $record = $entity::where('entity_key', $entity_key)
                         ->where('entity_id', $entity_id)
@@ -82,18 +83,11 @@ class ValueRepositoryDynamo extends ValueRepository
     {
         $entity = $this->entity;
 
-        $value = $entity::where(['value' => (string)$fileName])
-            ->get()->first();
+        $results = $entity::where(['value' => (string)$fileName,
+                'company_id' => (int)$companyId,
+            ])
+            ->get();
 
-        $results = [];
-        if (!empty($value->attribute_id)) {
-            $results = KeyDynamoDb::where(['type' => 'file',
-                    'company_id' => (int)$companyId,
-                    'id' => (int)$value->attribute_id
-                ])
-                ->get();
-        }
-        
         return $results;
     }
 }

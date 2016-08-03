@@ -27,7 +27,7 @@ class ValueRepository
     
     }
     
-    public function set(Request $request, $entity_key, $entity_id)
+    public function set(Request $request, $entity_key, $entity_id, $company_id)
     {
         $entity = $this->entity;
         
@@ -45,7 +45,11 @@ class ValueRepository
                     $fields['entity_id'] = $entity_id;
                     $fields['attribute_id'] = $key;
                     $fields['value'] = $value;
-    
+                    
+                    if(config('database.driver')) {
+                        $fields['company_id'] = $company_id;
+                    }
+                    
                     $update = $entity::where('entity_key', $entity_key)
                         ->where('entity_id', $entity_id)
                         ->where('attribute_id', $key)

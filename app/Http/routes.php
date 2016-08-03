@@ -39,7 +39,7 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
 
     /* crud for entity an attributes */
     $app->get('values/{entity_key}/{entity_id}', 'ValueController@get');
-    $app->post('values/{entity_key}/{entity_id}', 'ValueController@set');
+    $app->post('values/{entity_key}/{entity_id}/{company_id}', 'ValueController@set');
     $app->get('values/download', 'ValueController@download');
     /*
     $app->delete('value/{entity_key}/{entity_id}','ValueController@delete');

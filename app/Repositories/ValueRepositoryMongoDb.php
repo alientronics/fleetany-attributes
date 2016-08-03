@@ -1,8 +1,6 @@
 <?php
 namespace App\Repositories;
 
-use App\Entities\MongoDb\KeyMongoDb;
-
 class ValueRepositoryMongoDb extends ValueRepository
 {
 
@@ -11,17 +9,10 @@ class ValueRepositoryMongoDb extends ValueRepository
     {
         $entity = $this->entity;
 
-        $value = $entity::where(['value' => $fileName])
-            ->get()->first();
-        
-        $results = [];
-        if (!empty($value->attribute_id)) {
-            $results = KeyMongoDb::where(['type' => 'file',
-                    'company_id' => $companyId,
-                    'id' => $value->attribute_id
-                ])
-                ->get();
-        }
+        $results = $entity::where(['value' => $fileName,
+                'company_id' => $companyId,
+            ])
+            ->get();
         
         return $results;
     }
