@@ -13,11 +13,6 @@ services:
 addons:
   code_climate:
     repo_token: 3ed233cbaeb077601c697c2f087afcfa3a2f5f60662d07029882c740bc6e9072
-  apt:
-    sources:
-    - mongodb-3.0-precise
-    packages:
-    - mongodb-org-server
   hosts:
     - dynamodb-local
 
